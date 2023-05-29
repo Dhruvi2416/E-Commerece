@@ -3,11 +3,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 body{
   font-family:sans-serif, 'Segoe UI', Tahoma, Verdana,'Times New Roman', Times, serif;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 @tailwind base;

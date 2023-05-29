@@ -21,14 +21,25 @@ const Header = () => {
   const provider = new GoogleAuthProvider();
   // initialize Authentication service to the following app
   const firebaseAuth = getAuth(app);
+
   const login = async () => {
-    if (isUser === null) {
-      // const response = await signInWithPopup(firebaseAuth, provider): This line attempts to sign in the user using a popup window provided by Firebase Authentication. It calls the signInWithPopup() function, passing in the firebaseAuth instance (Firebase Authentication service) and the provider instance (Google authentication provider).
-      const response = await signInWithPopup(firebaseAuth, provider);
-   
-      setUser(response);
+    try {
+      if (isUser === null) {
+        const response = await signInWithPopup(
+          firebaseAuth,
+          provider.setCustomParameters({
+            prompt: "select_account",
+          })
+        );
+
+        setUser(response);
+      }
+      setIsMenu(!isMenu);
+    } catch (error) {
+      // Handle the unknown error case
+      console.log("Sign-in error:", error);
+      // Display a generic error message or perform any other action
     }
-    setIsMenu(!isMenu);
   };
 
   const signIn = () => {
@@ -41,14 +52,15 @@ const Header = () => {
   const photo = isUser?.user.photoURL;
 
   // logout
+
   const logout = () => {
-    console.log("Hi");
     setUser(null);
     setIsMenu(false);
     localStorage.clear();
   };
+
   return (
-    <header className="fixed z-50 w-screen p-6 px-16">
+    <header className="fixed z-50 w-screen p-6 px-16 bg-primary">
       {/* desktop & tablet */}
       <div className="hidden md:flex items-center w-full h-full justify-between">
         <Link to={"/"} className="flex flex-col gap-2">
@@ -110,25 +122,16 @@ const Header = () => {
             )}
             {!isUser && isMenu && (
               <ul>
-                <div className="w-64 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12 gap-3">
+                <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12 gap-3">
                   {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
 
                   <li
                     className="py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
                     onClick={login}
                   >
-                    Login With Same account
+                    Login
                     <MdLogout />
                   </li>
-
-                  <li
-                    className="px-2 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                    // onClick={logout}
-                  >
-                    Login With different Account <MdLogout />
-                  </li>
-
-               
                 </div>
               </ul>
             )}{" "}
@@ -144,15 +147,13 @@ const Header = () => {
           </div>
         </div>
 
-       
-          <Link to={"/"} className="flex  gap-2">
-            <img
-              className="w-14 object-cover rounded-full"
-              src="/assets/logo.png"
-              alt="logo"
-            />
-          </Link>
-      
+        <Link to={"/"} className="flex  gap-2">
+          <img
+            className="w-14 object-cover rounded-full"
+            src="/assets/logo.png"
+            alt="logo"
+          />
+        </Link>
 
         <div className="relative">
           {/* here if user is not loggedIn then display a avatar img else display user's profile */}
@@ -166,7 +167,7 @@ const Header = () => {
           {isUser && isMenu && (
             <ul className="flex gap-8">
               <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12">
-                {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
+                {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
                 {isUser.user.email === "dhruvikalpesh2001@gmail.com" && (
                   <Link to="/createItem">
@@ -202,22 +203,15 @@ const Header = () => {
           )}{" "}
           {!isUser && isMenu && (
             <ul className="flex gap-8">
-              <div className="w-64 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-10 gap-3 ">
+              <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-10 gap-3 ">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
 
                 <li
                   className="px-4 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
                   onClick={login}
                 >
-                  Login With Same account
+                  Login
                   <MdLogout />
-                </li>
-
-                <li
-                  className="px-4 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                  // onClick={logout}
-                >
-                  Login With different Account <MdLogout />
                 </li>
               </div>
             </ul>

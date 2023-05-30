@@ -1,5 +1,6 @@
 import { TbTruckDelivery, TbBrandCashapp } from "react-icons/tb";
 import { AiOutlinePayCircle } from "react-icons/ai";
+import { categories } from "../data/data";
 const HomeContainer = () => {
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2  gap-2 w-full h-[calc(100%-88px)]">
@@ -34,89 +35,23 @@ const HomeContainer = () => {
         </p>
       </section>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 items-center bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 rounded-lg">
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40 shadow-lg shadow-black rounded-lg  "
-            src="assets/menwear1.png"
-            alt="men's wear"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">
-            Men's Wear
-          </p>
-        </div>
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40   shadow-lg shadow-black rounded-lg"
-            src="assets/womenwear1.png"
-            alt="Women's wear"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">
-            Women's Wear
-          </p>
-        </div>
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40   shadow-lg shadow-black rounded-lg"
-            src="assets/kidswear1.png"
-            alt="kid's wear"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">
-            Kid's Wear
-          </p>
-        </div>
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40   shadow-lg shadow-black rounded-lg"
-            src="assets/purse1.png"
-            alt="purses"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">Purses</p>
-        </div>
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40  shadow-lg shadow-black rounded-lg  "
-            src="assets/shoes1.png"
-            alt="shoes"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">Shoes</p>
-        </div>
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40  shadow-lg shadow-black rounded-lg  "
-            src="assets/toy1.png"
-            alt="Toys"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">Toys</p>
-        </div>
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40   shadow-lg shadow-black rounded-lg"
-            src="assets/jwellery1.png"
-            alt="Jwellery"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">Jwellery</p>
-        </div>
-
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40 shadow-lg shadow-black rounded-lg"
-            src="assets/electronics1.png"
-            alt="electronics"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">
-            Electronics
-          </p>
-        </div>
-        <div className="flex flex-col items-center mt-11">
-          <img
-            className="w-56 md:w-40   shadow-lg shadow-black rounded-lg"
-            src="assets/beauty1.png"
-            alt="beauty products"
-          />
-          <p className="text-textColor text-lg font-semibold mt-2">
-            Beauty Products
-          </p>
-        </div>
+        {categories.map((category) => {
+          return (
+            <div
+              className="flex flex-col items-center mt-11 "
+              key={category.id}
+            >
+              <img
+                className="w-56 md:w-40   shadow-lg shadow-black rounded-lg"
+                src={category.src}
+                alt={category.alt}
+              />
+              <p className="text-black text-lg font-semibold mt-2">
+                {category.alt}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ const Header = () => {
   // if the user is loggedIn then set all the credentials to the localStorage basically conditioned that null is not being displayed
   if (isUser) localStorage.setItem("login", JSON.stringify(isUser));
   // photo URL
-  const photo = isUser?.user.photoURL;
+  const photo = isUser?.user?.photoURL;
 
   // logout
 
@@ -63,19 +63,19 @@ const Header = () => {
     <header className="fixed z-50 w-screen p-6 px-16 bg-primary">
       {/* desktop & tablet */}
       <div className="hidden md:flex items-center w-full h-full justify-between">
-        <Link to={"/"} className="flex flex-col gap-2">
-          <img
-            className="w-20 object-cover rounded-full"
-            src="/assets/logo.png"
-            alt=""
-          />
-        </Link>
+        <img
+          className="w-20 object-cover rounded-full"
+          src="/assets/logo.png"
+          alt=""
+        />
 
         <div className="flex items-center gap-8">
           <ul className="flex gap-8">
-            <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-              Home
-            </li>
+            <Link to={"/"} className="flex flex-col gap-2">
+              <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+                Home
+              </li>{" "}
+            </Link>
             <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
               Cart
             </li>
@@ -102,10 +102,13 @@ const Header = () => {
             {isUser && isMenu && (
               <div className="w-40 bg-gray-50 shadow-2xl  rounded-lg flex flex-col absolute px-4 py-2 top-12 right-0">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
-                {isUser?.user.email === "dhruvikalpesh2001@gmail.com" && (
+                {isUser?.user?.email === "dhruvikalpesh2001@gmail.com" && (
                   <Link to="/createItem">
                     <ul>
-                      <li className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
+                      <li
+                        className="px-4 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                        onClick={() => setIsMenu(false)}
+                      >
                         New Item <MdAdd />
                       </li>
                     </ul>
@@ -147,13 +150,11 @@ const Header = () => {
           </div>
         </div>
 
-        <Link to={"/"} className="flex  gap-2">
-          <img
-            className="w-14 object-cover rounded-full"
-            src="/assets/logo.png"
-            alt="logo"
-          />
-        </Link>
+        <img
+          className="w-14 object-cover rounded-full"
+          src="/assets/logo.png"
+          alt="logo"
+        />
 
         <div className="relative">
           {/* here if user is not loggedIn then display a avatar img else display user's profile */}
@@ -169,9 +170,12 @@ const Header = () => {
               <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12">
                 {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
-                {isUser.user.email === "dhruvikalpesh2001@gmail.com" && (
+                {isUser.user?.email === "dhruvikalpesh2001@gmail.com" && (
                   <Link to="/createItem">
-                    <li className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
+                    <li
+                      className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                      onClick={() => setIsMenu(false)}
+                    >
                       New Item <MdAdd />
                     </li>
                   </Link>
@@ -179,16 +183,26 @@ const Header = () => {
                 <Link
                   to={"/"}
                   className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={() => setIsMenu(false)}
                 >
                   Home
                 </Link>
-                <li className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
+                <li
+                  className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={() => setIsMenu(false)}
+                >
                   Menu
                 </li>
-                <li className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
+                <li
+                  className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={() => setIsMenu(false)}
+                >
                   About Us
                 </li>
-                <li className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base">
+                <li
+                  className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={() => setIsMenu(false)}
+                >
                   Service
                 </li>
 

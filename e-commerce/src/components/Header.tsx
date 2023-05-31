@@ -102,7 +102,7 @@ const Header = () => {
             {isUser && isMenu && (
               <div className="w-40 bg-gray-50 shadow-2xl  rounded-lg flex flex-col absolute px-4 py-2 top-12 right-0">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
-                {isUser?.user?.email === "dhruvikalpesh2001@gmail.com" && (
+                {isUser?.user?.email === process.env.REACT_APP_ADMIN_EMAIL && (
                   <Link to="/createItem">
                     <ul>
                       <li
@@ -170,7 +170,7 @@ const Header = () => {
               <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12">
                 {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
-                {isUser.user?.email === "dhruvikalpesh2001@gmail.com" && (
+                {isUser.user?.email === process.env.REACT_APP_ADMIN_EMAIL && (
                   <Link to="/createItem">
                     <li
                       className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"

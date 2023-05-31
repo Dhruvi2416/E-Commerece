@@ -5,22 +5,18 @@ import Loader from "./Loader";
 import { ImCross } from "react-icons/im";
 import { FaRupeeSign } from "react-icons/fa";
 import { storage } from "../firebase.config";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { saveItem } from "../data/FirebaseFunctions";
 
 const CreateContainer = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const [tempImgUrl, setTempImgUrl] = useState<string>("");
   const [price, setPrice] = useState(0);
   const [alert, setAlert] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [imgDetails, setImgDetails] = useState<Record<string, any>>({});
 
   // useRef for choosing file input to access by an area around box
   const fileRef = useRef<HTMLInputElement>(null);
@@ -28,59 +24,66 @@ const CreateContainer = () => {
   const refHandle = () => {
     fileRef.current?.click();
   };
+
   //uploads image function
   const uploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     //only image files are valid
     if (e.target.files![0].type.startsWith("image/")) {
       setIsLoading(true);
       setAlert("Uploading, Please Wait!");
-
+      setTimeout(() => setAlert(" "), 2000);
+      setImgDetails(e.target.files![0]);
       try {
-        //we only want one file so [0]
-        const imageFile = e.target.files![0];
-        //ref is a firebase storage function which takes storage the one which we created in firebase.config,to create unique id with date
-        const storageRef = ref(
-          storage,
-          `Images/${Date.now()}-${imageFile.name}`
-        );
-        //uploadBytesResumable is also a firebase storage function which takes stored reference and there storing the imageFile uploaded by owner
-        const uploadTask = uploadBytesResumable(storageRef, imageFile);
-        //snapshot gives the metadata of the image uploaded
-        const snapshot = await uploadTask;
-        //getDownloadURL will fetch the url given by the firebase storage from the snapshot ref where info is there
-        const downloadURL = await getDownloadURL(snapshot.ref);
-        console.log(snapshot);
-        setImageUrl(downloadURL);
-        setIsLoading(false);
-        setAlert("");
+        const url = URL.createObjectURL(e.target.files![0]);
+        setTimeout(() => {
+          setTempImgUrl(url);
+          setIsLoading(false);
+        }, 2000);
       } catch (error) {
         setIsLoading(false);
         setAlert("Error uploading image!");
-        console.log("Upload error:", error);
       }
     } else {
       setAlert("Upload image only!");
     }
   };
 
-  const deleteImage = async () => {
-    const deleteRef = ref(storage, imageUrl);
-
+  const deleteImage = () => {
     try {
-      await deleteObject(deleteRef);
-      setImageUrl("");
+      setTempImgUrl("");
       setAlert("Image deleted successfully!");
     } catch (error) {
       // Handle the deletion error
-      console.log("Deletion error:", error);
+      setAlert("error");
     }
 
     setTimeout(() => setAlert(""), 2000);
   };
 
-  const saveDetails = () => {
+  const saveDetails = async () => {
+    let imageUrl = "";
     try {
-      if (title && imageUrl && category && price && quantity! > 0) {
+      //ref is a firebase storage function which takes storage the one which we created in firebase.config,to create unique id with date
+      const storageRef = ref(
+        storage,
+        `Images/${Date.now()}-${imgDetails.name}`
+      );
+      //uploadBytesResumable is also a firebase storage function which takes stored reference and there storing the imageFile uploaded by owner
+      const uploadTask = uploadBytesResumable(storageRef, imgDetails as Blob);
+      //snapshot gives the metadata of the image uploaded
+      const snapshot = await uploadTask;
+      //getDownloadURL will fetch the url given by the firebase storage from the snapshot ref where info is there
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      imageUrl = downloadURL;
+      setIsLoading(false);
+      setAlert("");
+    } catch (error) {
+      setIsLoading(false);
+      setAlert("Error uploading image!");
+    }
+    try {
+      if (title && tempImgUrl && category && price && quantity! > 0) {
         const newItem = {
           id: `${Date.now()}`,
           title: title,
@@ -96,7 +99,7 @@ const CreateContainer = () => {
         const clearData = () => {
           setTitle("");
           setCategory("");
-          setImageUrl("");
+          setTempImgUrl("");
           setPrice(0);
           setQuantity(0);
         };
@@ -106,7 +109,6 @@ const CreateContainer = () => {
         setTimeout(() => setAlert(""), 2000);
       }
     } catch (error) {
-      console.log(error);
       setAlert("Error while Uploading!");
     }
   };
@@ -153,7 +155,7 @@ const CreateContainer = () => {
           className="border-dotted border-2 rounded-lg border-textColor mt-4 p-10   flex flex-col justify-center items-center text-gray-500"
           onClick={refHandle}
         >
-          {!imageUrl ? (
+          {!tempImgUrl ? (
             !isLoading ? (
               <>
                 {" "}
@@ -175,7 +177,7 @@ const CreateContainer = () => {
             <>
               <img
                 className="h-[10rem] w-auto"
-                src={imageUrl}
+                src={tempImgUrl}
                 alt="product item"
               />
               <div className="mt-2">

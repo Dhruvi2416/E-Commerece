@@ -1,5 +1,5 @@
 import { MdShoppingBasket, MdAdd, MdLogout } from "react-icons/md";
-import { motion } from "framer-motion";
+import { motion} from "framer-motion"
 import { Link } from "react-router-dom";
 import {
   getAuth,
@@ -60,7 +60,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed z-50 w-screen p-6 px-16 bg-primary">
+    <header className="fixed z-50 w-screen p-6  bg-primary">
       {/* desktop & tablet */}
       <div className="hidden md:flex items-center w-full h-full justify-between">
         <img

@@ -1,11 +1,12 @@
-import React from 'react';
+import { configureStore } from "@reduxjs/toolkit";
+import productReducer from "./product/productSlice"
+export const store = configureStore({
 
-const store = () => {
-  return (
-    <div>
-      
-    </div>
-  );
-}
+reducer:{
+product: productReducer,
 
-export default store;
+},
+})
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

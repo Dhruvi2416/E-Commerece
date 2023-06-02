@@ -9,8 +9,12 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase.config";
 import { useState } from "react";
+import { useSelector} from "react-redux";
+import type { RootState } from "../redux-toolkit/store";
+
 
 const Header = () => {
+  const addProduct = useSelector((state:RootState)=> state.product.numbersOfAddedProduct)
   const [isMenu, setIsMenu] = useState(false);
   const [isUser, setUser] = useState<UserCredential | null>(
     localStorage.getItem("login")
@@ -87,7 +91,7 @@ const Header = () => {
           <div className="relative flex">
             <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer hover:text-headingColor " />
             <div className="absolute -top-4 -right-2 w-5 h-5 rounded-full bg-pink-600 flex items-center justify-center">
-              <p className="text-xs text-white font-semibold">0</p>
+              <p className="text-xs text-white font-semibold">{addProduct}</p>
             </div>
           </div>
           <div className="relative">
@@ -146,7 +150,7 @@ const Header = () => {
         <div className="relative flex">
           <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer hover:text-headingColor " />
           <div className="absolute -top-4 -right-2 w-5 h-5 rounded-full bg-pink-600 flex items-center justify-center">
-            <p className="text-xs text-white font-semibold">0</p>
+            <p className="text-xs text-white font-semibold">{addProduct}</p>
           </div>
         </div>
 

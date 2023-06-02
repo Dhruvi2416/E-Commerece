@@ -1,7 +1,7 @@
 import { TbTruckDelivery, TbBrandCashapp } from "react-icons/tb";
 import { AiOutlinePayCircle } from "react-icons/ai";
 import { categories } from "../data/data";
-import Products from "./Products";
+import Products from "./DisplayAllProducts";
 import { useState } from "react";
 const HomeContainer = () => {
   const [category, setCategory] = useState<string>("");

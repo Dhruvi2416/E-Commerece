@@ -3,6 +3,8 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { DocumentData } from "firebase/firestore";
 // import { getAllItems } from "../data/FirebaseFunctions";
 
+import { favouriteProduct } from "../redux-toolkit/product/productSlice";
+import { useDispatch } from "react-redux";
 const Products = () => {
   //   const [product, setProduct] = useState<DocumentData[]>([]);
 
@@ -16,6 +18,7 @@ const Products = () => {
   //     fetchData();
   //   }, []);
 
+  const dispatch = useDispatch();
   let product = [
     {
       category: "Electronics",
@@ -362,7 +365,7 @@ const Products = () => {
             <h5 className="mb-2 text-xl font-bold tracking-tight text-textColor dark:text-white flex  justify-center">
               Price: ₹{" " + item.price}
             </h5>
-            <button className="flex justify-center items-center bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mb-2 w-36 mx-10 lg:mx-14 text-lg tracking-tight text-white font-semibold">
+            <button onClick={()=>dispatch(favouriteProduct())} className="flex justify-center items-center bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mb-2 w-36 mx-10 lg:mx-14 text-lg tracking-tight text-white font-semibold">
               Add to Cart{" "}
               <AiOutlineShoppingCart className="text-xl ml-2 font-semibold" />
             </button>

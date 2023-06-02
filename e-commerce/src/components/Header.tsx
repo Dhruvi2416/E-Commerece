@@ -100,7 +100,7 @@ const Header = () => {
               onClick={signIn}
             />
             {isUser && isMenu && (
-              <div className="w-40 bg-gray-50 shadow-2xl  rounded-lg flex flex-col absolute px-4 py-2 top-12 right-0">
+              <div className="w-40 bg-gray-50 shadow-2xl  rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
                 {isUser?.user?.email === process.env.REACT_APP_ADMIN_EMAIL && (
                   <Link to="/createItem">
@@ -125,7 +125,7 @@ const Header = () => {
             )}
             {!isUser && isMenu && (
               <ul>
-                <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12 gap-3">
+                <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4 gap-3">
                   {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
 
                   <li
@@ -167,7 +167,7 @@ const Header = () => {
           />
           {isUser && isMenu && (
             <ul className="flex gap-8">
-              <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12">
+              <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4">
                 {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
                 {isUser.user?.email === process.env.REACT_APP_ADMIN_EMAIL && (
@@ -217,7 +217,7 @@ const Header = () => {
           )}{" "}
           {!isUser && isMenu && (
             <ul className="flex gap-8">
-              <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-10 gap-3 ">
+              <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4 gap-3 ">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
 
                 <li

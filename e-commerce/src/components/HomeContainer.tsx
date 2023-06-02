@@ -2,7 +2,9 @@ import { TbTruckDelivery, TbBrandCashapp } from "react-icons/tb";
 import { AiOutlinePayCircle } from "react-icons/ai";
 import { categories } from "../data/data";
 import Products from "./Products";
+import { useState } from "react";
 const HomeContainer = () => {
+  const [category, setCategory] = useState<string>("");
   return (
     <div className="w-full flex flex-col">
       <div className="grid grid-cols-1 xl:grid-cols-2  gap-2 w-full h-[calc(100%-88px)]">
@@ -63,6 +65,29 @@ const HomeContainer = () => {
             {item.alt}
           </div>
         ))}
+      </div>
+
+      <div className="lg:hidden">
+      <select
+          required
+          value={category}
+          className="py-2 px-2 rounded-lg mt-4 bg-white w-full text-textColor"
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="no" hidden>
+            Select Category
+          </option>
+          {categories &&
+            categories.map((item) => (
+              <option
+                value={item.alt}
+                key={item.id}
+                className="text-headingColor text-lg p-2"
+              >
+                {item.alt}
+              </option>
+            ))}
+        </select>
       </div>
       <Products />
     </div>

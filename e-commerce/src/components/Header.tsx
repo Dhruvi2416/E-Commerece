@@ -1,5 +1,5 @@
 import { MdShoppingBasket, MdAdd, MdLogout } from "react-icons/md";
-import { motion} from "framer-motion"
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   getAuth,
@@ -9,12 +9,13 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase.config";
 import { useState } from "react";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import type { RootState } from "../redux-toolkit/store";
 
-
 const Header = () => {
-  const addProduct = useSelector((state:RootState)=> state.product.numbersOfAddedProduct)
+  const addProduct = useSelector(
+    (state: RootState) => state.product.numbersOfAddedProduct
+  );
   const [isMenu, setIsMenu] = useState(false);
   const [isUser, setUser] = useState<UserCredential | null>(
     localStorage.getItem("login")

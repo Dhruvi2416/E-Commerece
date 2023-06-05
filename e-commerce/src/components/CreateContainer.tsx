@@ -114,7 +114,7 @@ const CreateContainer = () => {
   };
 
   return (
-    <div className="h-full flex flex-col justify-center items-center w-full">
+    <div className="h-full flex flex-col justify-center items-center w-full xl:mt-32">
       <p className="font-semibold text-2xl text-red-700 mt-4 flext justify-center">
         {alert && alert}
       </p>

@@ -1,12 +1,27 @@
-import { configureStore } from "@reduxjs/toolkit";
-import productReducer from "./product/productSlice"
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import productReducer from "./product/productSlice";
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import thunk from 'redux-thunk';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, productReducer);
+
+const middleware = [thunk, ...getDefaultMiddleware({
+    serializableCheck: false, // Disable serializable value check
+  })];
+
 export const store = configureStore({
+  reducer: {
+    product: persistedReducer,
+  },
+  middleware,
+});
 
-reducer:{
-product: productReducer,
-
-},
-})
-
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export const persistor = persistStore(store);
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

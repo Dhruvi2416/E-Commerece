@@ -47,7 +47,7 @@ module.exports = {
         headingColor: "#2e2e2e",
         textColor: "#515151",
 
-        primary: "#f5f3f3",
+        primary: "#ffffff",
         cardOverlay: "rgba(256,256,256,0.4)",
         lighttextGray: "#9ca0ab",
         card: "rgba(256,256,256,0.8)",

@@ -11,10 +11,11 @@ import { app } from "../firebase.config";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux-toolkit/store";
-
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
   const addProduct = useSelector(
-    (state: RootState) => state.product.numbersOfAddedProduct
+    (state: RootState) => state.product.cartList
   );
   const [isMenu, setIsMenu] = useState(false);
   const [isUser, setUser] = useState<UserCredential | null>(
@@ -65,7 +66,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed z-50 w-screen p-6  bg-primary">
+    <header className="fixed z-50 w-screen p-6  bg-primary border-b-2">
       {/* desktop & tablet */}
       <div className="hidden md:flex items-center w-full h-full justify-between">
         <img
@@ -81,18 +82,16 @@ const Header = () => {
                 Home
               </li>{" "}
             </Link>
-            <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-              Cart
-            </li>
+          
             <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
               Payment
             </li>
           </ul>
           {/* MdShoppingBasket is a react icon for cart */}
           <div className="relative flex">
-            <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer hover:text-headingColor " />
+            <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer hover:text-headingColor " onClick={()=>navigate("/cart")}/>
             <div className="absolute -top-4 -right-2 w-5 h-5 rounded-full bg-pink-600 flex items-center justify-center">
-              <p className="text-xs text-white font-semibold">{addProduct}</p>
+              <p className="text-xs text-white font-semibold">{addProduct.length}</p>
             </div>
           </div>
           <div className="relative">
@@ -149,9 +148,9 @@ const Header = () => {
       {/* mobile */}
       <div className="flex md:hidden w-full h-full justify-between items-center">
         <div className="relative flex">
-          <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer hover:text-headingColor " />
+          <MdShoppingBasket className="text-textColor text-2xl  cursor-pointer hover:text-headingColor " onClick={()=>navigate("/cart")} />
           <div className="absolute -top-4 -right-2 w-5 h-5 rounded-full bg-pink-600 flex items-center justify-center">
-            <p className="text-xs text-white font-semibold">{addProduct}</p>
+            <p className="text-xs text-white font-semibold">{addProduct.length}</p>
           </div>
         </div>
 

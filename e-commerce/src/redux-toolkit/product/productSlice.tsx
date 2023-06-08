@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import type { PayloadAction } from "@reduxjs/toolkit";
+
 export interface ProductState {
-  numbersOfAddedProduct: number;
+ 
   categoryChoosen: string;
   allProductsList: Data[];
-  viewProduct: Data|{};
+  viewProduct: Data;
+  cartList:Data[]|[];
 }
 
 interface Data {
@@ -17,9 +19,10 @@ interface Data {
   title: string;
 }
 
-const initialState = {
-  numbersOfAddedProduct: 0,
+const initialState:ProductState = {
+ 
   categoryChoosen: "",
+  cartList:[],
   viewProduct: {
     category: "Electronics",
 
@@ -30,7 +33,7 @@ const initialState = {
     qty: 10,
     title: "Mi Vivo Protable Black Charger",
   },
-  allProductslist: [
+  allProductsList: [
     {
       category: "Women's wear",
       id: "1685686413678",
@@ -108,15 +111,10 @@ const initialState = {
 };
 
 export const productSlice = createSlice({
-  name: "product",
+  name: "products",
   initialState,
   reducers: {
-    favouriteProduct: (state) => {
-      state.numbersOfAddedProduct += 1;
-    },
-    decreaseFavouriteProduct:(state)=>{
-    state.numbersOfAddedProduct -=1;
-    },
+  
     favouriteCategory: (state, action: PayloadAction<string>) => {
       state.categoryChoosen = action.payload;
     },
@@ -126,9 +124,40 @@ export const productSlice = createSlice({
     seeProduct: (state, action: PayloadAction<Data>) => {
       state.viewProduct = action.payload;
     },
+    addedToCart: (state, action: PayloadAction<Data>) => {
+      // const { id } = action.payload;
+    //find method return the whole object that met the conditions or else returns undefined
+      const existingItem = state.cartList.find((item) => item.id === action.payload.id);
+
+      if (existingItem) {
+        // Item already exists in the cart, increase the quantity
+        existingItem.qty += 1;
+      } else {
+        // Item does not exist in the cart, add it to the cartList
+        state.cartList = [...state.cartList, action.payload];
+      }
+     
+    },
+
+    removedFromCart: (state, action: PayloadAction<Data>) => {
+      const existingItem = state.cartList.find((item) => item.id === action.payload.id);
+    
+      if (existingItem) {
+        if (existingItem.qty > 1) {
+          // Quantity is greater than one, reduce the quantity
+          existingItem.qty -= 1;
+        } else {
+          // Quantity is equal to one, remove the item from the cartList
+          state.cartList = state.cartList.filter((item) => item.id !== action.payload.id);
+        }
+      }
+    },
+   
+   
   },
+ 
 });
 
-export const { favouriteProduct, favouriteCategory, seeProduct, decreaseFavouriteProduct } =
+export const { favouriteCategory, seeProduct,addedToCart,removedFromCart } =
   productSlice.actions;
 export default productSlice.reducer;

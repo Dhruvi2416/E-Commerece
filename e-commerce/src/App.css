@@ -10,7 +10,7 @@ body{
   font-family:sans-serif, 'Segoe UI', Tahoma, Verdana,'Times New Roman', Times, serif;
   scroll-behavior: smooth;
   overflow-x: hidden;
-  background-color: #f5f3f3;
+  background-color: #ffffff;
  
   
 }
@@ -21,7 +21,9 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-
+.scrolls::-webkit-scrollbar {
+  display: none;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

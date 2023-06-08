@@ -5,6 +5,7 @@ import CreateContainer from "./components/CreateContainer";
 import HomeContainer from "./components/HomeContainer";
 import { AnimatePresence } from "framer-motion";
 import SingleProductDisplay from "./components/SingleProductDisplay";
+import Cart from "./components/Cart";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
             <Route path="/" element={<HomeContainer />} />
             <Route path="/createItem" element={<CreateContainer />} />
             <Route path="/viewProduct" element={<SingleProductDisplay />} />
+            <Route path="/cart" element={<Cart/>}/>
           </Routes>
         </main>
       </div>

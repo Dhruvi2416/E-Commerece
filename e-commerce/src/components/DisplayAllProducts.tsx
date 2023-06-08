@@ -4,7 +4,7 @@ import { DocumentData } from "firebase/firestore";
 // import { getAllItems } from "../data/FirebaseFunctions";
 import type { RootState } from "../redux-toolkit/store";
 import {
-  favouriteProduct,
+
   favouriteCategory,
   seeProduct,
 } from "../redux-toolkit/product/productSlice";
@@ -26,7 +26,7 @@ const Products = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector(
-    (state: RootState) => state.product.allProductslist
+    (state: RootState) => state.product.allProductsList
   );
   const categoryChoosen = useSelector(
     (state: RootState) => state.product.categoryChoosen

@@ -4,10 +4,11 @@ import Lottie from "lottie-web";
 import { RootState } from "../redux-toolkit/store";
 import emptyCart from "./animation/emptyCart.json";
 import { useDispatch } from "react-redux";
-
+import { useNavigate } from "react-router-dom";
 import {
   addedToCart,
   removedFromCart,
+  handleLoggedIn,
 } from "../redux-toolkit/product/productSlice";
 interface Data {
   category: string;
@@ -22,9 +23,10 @@ const Cart = () => {
   const displayCartProducts = useSelector(
     (state: RootState) => state.product.cartList
   );
+  const loggedIn = useSelector((state: RootState) => state.product.isLoggedIn);
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const deliveryFee = 70;
   useEffect(() => {
@@ -50,9 +52,16 @@ const Cart = () => {
     }
   }, []);
 
+  const handlePayment = () => {
+    if (loggedIn == true) {
+      navigate("/payment");
+    } else {
+      navigate("/home");
+    }
+  };
+
   return (
-    <div className="w-full flex flex-col 2xl:mt-48 lg:h-[75vh] items-center   ">
-     
+    <div className="w-full flex flex-col 2xl:mt-48 lg:h-[75vh] items-center px-4  ">
       {displayCartProducts.length === 0 ? (
         <div>
           <div id="lottie-container" className="h-96" />
@@ -61,10 +70,11 @@ const Cart = () => {
           </h1>
         </div>
       ) : (
-       
         <div className=" flex flex-col lg:flex-row gap-24 lg:overflow-y-auto">
           <div className=" scrolls lg:overflow-y-auto">
-          <div className="text-textColor text-xl mb-2">Cart |{" "+displayCartProducts.length} Item</div>
+            <div className="text-textColor text-xl mb-2">
+              Cart |{" " + displayCartProducts.length} Item
+            </div>
             {displayCartProducts.map((cartList) => (
               <div className=" flex flex-col sm:flex-row mb-4 border-2 p-2 gap-4 justify-center sm:justify-start items-center">
                 <img src={cartList.imageUrl} className="h-40 w-40" />
@@ -123,7 +133,7 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className=" border-2 p-4 flex flex-col justify-center max-h-96 ">
+          <div className=" border-2 p-4 flex flex-col justify-center max-h-96 mt-10 ">
             <p className="font-extrabold text-2xl">Price Details</p>
             <div className="grid grid-cols-2 gap-2 p-2 text-lg ">
               <p>Total Product Price</p>
@@ -143,7 +153,10 @@ const Cart = () => {
               </p>
             </div>
             <div className="flex justify-center">
-              <button className="flex justify-center  bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mt-4 mb-4 w-56 mx-2  text-lg  text-white font-semibold">
+              <button
+                className="flex justify-center  bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mt-4 mb-4 w-56 mx-2  text-lg  text-white font-semibold"
+                onClick={() => handlePayment()}
+              >
                 Continue to Payment{" "}
               </button>
             </div>

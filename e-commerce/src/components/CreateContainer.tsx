@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { MdOutlineTitle, MdCloudUpload } from "react-icons/md";
 import { categories } from "../data/data";
 import Loader from "./Loader";
@@ -7,8 +7,18 @@ import { FaRupeeSign } from "react-icons/fa";
 import { storage } from "../firebase.config";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { saveItem } from "../data/FirebaseFunctions";
-
+import { RootState } from "../redux-toolkit/store";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const CreateContainer = () => {
+
+const loggedIn = useSelector((state:RootState)=>state.product.isLoggedIn)
+const navigate = useNavigate();
+useEffect(()=>{
+
+!loggedIn && navigate("/home")
+
+},[])
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +143,7 @@ const CreateContainer = () => {
         <select
           required
           value={category}
-          className="py-2 px-2 rounded-lg mt-4 bg-white w-full text-textColor"
+          className="py-2 px-2  border-2 hover:border-black rounded-lg mt-4 bg-white w-full text-textColor"
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="no" hidden>

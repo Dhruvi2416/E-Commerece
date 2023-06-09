@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { DocumentData } from "firebase/firestore";
 // import { getAllItems } from "../data/FirebaseFunctions";
+import outOfStock from "./animation/out of stock.json";
+import Lottie from "lottie-web";
 import type { RootState } from "../redux-toolkit/store";
 import {
 
@@ -23,6 +25,24 @@ const Products = () => {
   //   useEffect(() => {
   //     fetchData();
   //   }, []);
+
+
+  useEffect(() => {
+    const container = document.getElementById("lottie-container");
+    if (container) {
+      Lottie.loadAnimation({
+        container: container,
+        renderer: "svg",
+        loop: false,
+        autoplay: true,
+        animationData: outOfStock, // Update the animation file path and extension
+      });
+    }
+  });
+
+useEffect(()=>{
+dispatch(favouriteCategory(""))
+},[])
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector(
@@ -37,40 +57,9 @@ const Products = () => {
   }); //ama filtered data malse
 
   return (
-    <>
-      <div className="py-4 hidden  lg:grid grid-cols-9 justify-center items-center mt-11">
-        {categories.map((item) => (
-          <div className="px-2" key={item.id}>
-            <button onClick={() => dispatch(favouriteCategory(item.alt))}>
-              {item.alt}
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <div className="lg:hidden">
-        <select
-          required
-          className="py-2 px-2 rounded-lg mt-4 bg-white w-full text-textColor"
-          onChange={(e) => dispatch(favouriteCategory(e.target.value))}
-        >
-          <option value="no" hidden>
-            Select Category
-          </option>
-          {categories &&
-            categories.map((item) => (
-              <option
-                value={item.alt}
-                key={item.id}
-                className="text-headingColor text-lg p-2"
-              >
-                {item.alt}
-              </option>
-            ))}
-        </select>
-      </div>
-      {console.log(categoryChoosen)}
-
+    <div className="px-4 md:px-16">
+     <p className="flex justify-center text-xl font-semibold text-pink-700 mt-16">Available Products</p>
+     
       {categoryChoosen ? (
         filteredData.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  items-center justify-center gap-2 mt-11 bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 pb-4">
@@ -120,13 +109,15 @@ const Products = () => {
             )}{" "}
           </div>
         ) : (
-          <h1 className="flex justify-center mt-2 font-semibold text-2xl max-w-full ">
-            Out of Stock
+          <h1 className="flex flex-col justify-center mt-2 font-semibold text-2xl max-w-full ">
+              <div id="lottie-container" className="h-96" />
+              <p className="flex justify-center text-2xl font-semibold text-pink-700 mt-16">Out of Stock</p>
+     
           </h1>
         )
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  items-center justify-center gap-2 mt-11 bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 pb-4">
-          {product.map((item, i) => (
+          {product.map((item) => (
             <div
               className="flex flex-col items-center  mt-11  mx-11 shadow-lg shadow-gray-500 rounded-lg bg-white w-52"
               key={item.id}
@@ -168,7 +159,7 @@ const Products = () => {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

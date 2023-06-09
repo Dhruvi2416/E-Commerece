@@ -4,10 +4,7 @@ import { RootState } from "../redux-toolkit/store";
 import { useDispatch } from "react-redux";
 
 import { VscSmiley } from "react-icons/vsc";
-import {
-
-  addedToCart,removedFromCart
-} from "../redux-toolkit/product/productSlice";
+import { addedToCart } from "../redux-toolkit/product/productSlice";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 const SingleProductDisplay = () => {
   const viewProduct = useSelector(
@@ -15,8 +12,6 @@ const SingleProductDisplay = () => {
   );
   const dispatch = useDispatch();
   const addToCartFunc = () => {
-   
-
     dispatch(
       addedToCart({
         category: viewProduct.category,
@@ -29,23 +24,10 @@ const SingleProductDisplay = () => {
     );
   };
 
-
   const cartedList = useSelector((state: RootState) => state.product.cartList);
-  const removeFromCart = () => {
- 
-    dispatch(
-      removedFromCart({
-        category: viewProduct.category,
-        id: viewProduct.id,
-        imageUrl: viewProduct.imageUrl,
-        price: viewProduct.price,
-        qty: 1,
-        title: viewProduct.title,
-      })
-    );
-  };
+
   const exist = cartedList.some((item) => viewProduct.id === item.id);
-console.log(cartedList)
+  console.log(cartedList);
   return (
     <div className="flex h-1/3 flex-col xl:flex-row xl:mt-32 justify-center items-center mx-11 shadow-lg shadow-gray-500 rounded-lg bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 gap-2 2xl:gap-1">
       <div className="flex w-full justify-center xl:justify-start mt-4 xl:mt-0">
@@ -77,13 +59,10 @@ console.log(cartedList)
                 (cartedItem) =>
                   viewProduct.id === cartedItem.id && (
                     <div key={cartedItem.id} className="mt-8 mb-4">
-                          <button
-               
-                className="flex justify-center bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mt-4 mb-4 w-56 mx-2  text-lg  text-white font-semibold"
-              >
-                Click on Cart Icon{" "}
-                <VscSmiley className="text-xl ml-2 font-semibold mt-1 " />
-              </button>
+                      <button className="flex justify-center bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mt-4 mb-4 w-56 mx-2  text-lg  text-white font-semibold">
+                        Click on Cart Icon{" "}
+                        <VscSmiley className="text-xl ml-2 font-semibold mt-1 " />
+                      </button>
                     </div>
                   )
               )

@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import SingleProductDisplay from "./components/SingleProductDisplay";
 import Cart from "./components/Cart";
 import Payment from "./components/Payment";
+import Login from "./components/Login";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="/viewProduct" element={<SingleProductDisplay />} />
             <Route path="/cart" element={<Cart/>}/>
             <Route path="/payment" element={<Payment/>}/>
+            <Route path ="/login" element ={<Login/>}/>
           </Routes>
         </main>
       </div>

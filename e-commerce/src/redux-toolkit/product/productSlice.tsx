@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserCredential } from "firebase/auth";
+import { User } from "firebase/auth";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ProductState {
@@ -8,7 +8,8 @@ export interface ProductState {
   allProductsList: Data[];
   viewProduct: Data;
   cartList:Data[]|[];
-  isLoggedIn:string|UserCredential;
+  userData:null|User;
+ 
 }
 
 interface Data {
@@ -21,7 +22,8 @@ interface Data {
 }
 
 const initialState:ProductState = {
-  isLoggedIn:"",
+  
+  userData:null,
   categoryChoosen: "",
   cartList:[],
   viewProduct: {
@@ -116,8 +118,12 @@ export const productSlice = createSlice({
   initialState,
   reducers: {
     
-    handleLoggedIn: (state, action:PayloadAction<UserCredential|"">)=>{
-    state.isLoggedIn = action.payload
+    handleLoggedOut: (state, action:PayloadAction<null>)=>{
+      state.userData = action.payload
+      },
+    handleLoggedIn: (state, action:PayloadAction<User>)=>{
+    state.userData = action.payload
+    console.log("Actionjackson"+action.payload.email)
     },
 
     favouriteCategory: (state, action: PayloadAction<string>) => {
@@ -163,6 +169,6 @@ export const productSlice = createSlice({
  
 });
 
-export const { favouriteCategory, seeProduct,addedToCart,removedFromCart,handleLoggedIn } =
+export const { favouriteCategory, seeProduct,addedToCart,removedFromCart,handleLoggedIn,handleLoggedOut } =
   productSlice.actions;
 export default productSlice.reducer;

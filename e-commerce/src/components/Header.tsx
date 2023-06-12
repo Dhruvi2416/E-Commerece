@@ -1,4 +1,5 @@
 import { MdShoppingBasket, MdAdd, MdLogout } from "react-icons/md";
+import {  AiFillHome} from "react-icons/ai";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -7,39 +8,40 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../redux-toolkit/store";
 import { useNavigate } from "react-router-dom";
-import { handleLoggedIn } from "../redux-toolkit/product/productSlice";
+import {
+  handleLoggedIn,
+  handleLoggedOut,
+} from "../redux-toolkit/product/productSlice";
 import { useDispatch } from "react-redux";
+
 const Header = () => {
-  const loggedIn = useSelector((state: RootState) => state.product.isLoggedIn);
+  const loggedIn = useSelector((state: RootState) => state.product.userData);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const addProduct = useSelector((state: RootState) => state.product.cartList);
   const [isMenu, setIsMenu] = useState(false);
- 
 
-  const login =  () => {
-   
-      setIsMenu(!isMenu);
-    } 
-  
- 
+  const login = () => {
+    setIsMenu(!isMenu);
+    navigate("/login");
+  };
+
   const signIn = () => {
     setIsMenu(!isMenu);
   };
 
   // if the user is loggedIn then set all the credentials to the localStorage basically conditioned that null is not being displayed
-  
-  // photo URL
 
+  // photo URL
 
   // logout
 
   const logout = () => {
-    
     setIsMenu(false);
-    
-    dispatch(handleLoggedIn(""));
-    navigate("/home")
+
+    dispatch(handleLoggedOut(null));
+    navigate("/home");
   };
   const location = useLocation();
   const routeName = location.pathname;
@@ -60,10 +62,12 @@ const Header = () => {
               <Link to="/home" className="flex flex-col gap-2">
                 <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
                   Home
+
                 </li>
+              
               </Link>
             )}
-            {routeName !== "/payment" && loggedIn && (
+            {routeName !== "/payment" && routeName !== "/login" && loggedIn && (
               <li
                 className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
                 onClick={() => navigate("/payment")}
@@ -73,7 +77,7 @@ const Header = () => {
             )}
           </ul>
           {/* MdShoppingBasket is a react icon for cart */}
-          {routeName !== "/payment" && (
+          {routeName !== "/payment" && routeName !== "/login" && (
             <div className="relative flex">
               <MdShoppingBasket
                 className="text-textColor text-2xl  cursor-pointer hover:text-headingColor "
@@ -91,15 +95,16 @@ const Header = () => {
             <motion.img
               whileTap={{ scale: 0.6 }}
               className="w-10 min-w-[40px] h-10 min-h-[40px] cursor-pointer rounded-full"
-              src={loggedIn ? photo! : "/assets/avatar.png"}
+              src={loggedIn ? loggedIn.photoURL! : "/assets/avatar.png"}
               alt="user"
               onClick={signIn}
             />
             {loggedIn && isMenu && (
               <div className="w-40 z-50 bg-gray-50 shadow-2xl border-2 rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
-                {loggedIn?.user?.email === process.env.REACT_APP_ADMIN_EMAIL &&
-                  routeName !== "/createItem" && (
+                {loggedIn?.email === process.env.REACT_APP_ADMIN_EMAIL &&
+                  routeName !== "/createItem" &&
+                  routeName !== "/login" && (
                     <Link to="/createItem">
                       <ul>
                         <li
@@ -163,7 +168,7 @@ const Header = () => {
           <motion.img
             whileTap={{ scale: 0.6 }}
             className="w-10 min-w-[40px] h-10 min-h-[40px] cursor-pointer rounded-full"
-            src={loggedIn ? photo! : "/assets/avatar.png"}
+            src={loggedIn ? loggedIn.photoURL! : "/assets/avatar.png"}
             alt="user"
             onClick={signIn}
           />
@@ -172,8 +177,9 @@ const Header = () => {
               <div className="w-40 border-2 bg-white z-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4">
                 {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
-                {isUser.user?.email === process.env.REACT_APP_ADMIN_EMAIL &&
-                  routeName !== "/createItem" && (
+                {loggedIn.email === process.env.REACT_APP_ADMIN_EMAIL &&
+                  routeName !== "/createItem" &&
+                  routeName !== "/login" && (
                     <Link to="/createItem">
                       <li
                         className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
@@ -186,23 +192,27 @@ const Header = () => {
                 {routeName !== "/home" && (
                   <Link
                     to={"/home"}
-                    className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                    className=" ml-6 py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
                     onClick={() => setIsMenu(false)}
                   >
                     Home
+                    <AiFillHome/>
                   </Link>
+                
                 )}
-                {routeName !== "/payment" && loggedIn && (
-                  <li
-                    className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
-                    onClick={() => {
-                      setIsMenu(false);
-                      navigate("/payment");
-                    }}
-                  >
-                    Payment
-                  </li>
-                )}
+                {routeName !== "/payment" &&
+                  loggedIn &&
+                  routeName !== "/login" && (
+                    <li
+                      className=" py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                      onClick={() => {
+                        setIsMenu(false);
+                        navigate("/payment");
+                      }}
+                    >
+                      Payment
+                    </li>
+                  )}
 
                 <li
                   className="px-4 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
@@ -218,13 +228,26 @@ const Header = () => {
               <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4 gap-3 ">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
 
-                <li
-                  className="px-4 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                  onClick={login}
-                >
-                  Login
-                  <MdLogout />
-                </li>
+                {routeName !== "/home" && (
+                  <Link
+                    to={"/home"}
+                    className=" ml-6 py-2 flex items-center mx-4 gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base "
+                    onClick={() => setIsMenu(false)}
+                  >
+                    Home
+                    <AiFillHome/>
+                  </Link>
+                )}
+
+                {routeName !== "/login" && (
+                  <li
+                    className="px-4 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
+                    onClick={login}
+                  >
+                    Login
+                    <MdLogout />
+                  </li>
+                )}
               </div>
             </ul>
           )}{" "}

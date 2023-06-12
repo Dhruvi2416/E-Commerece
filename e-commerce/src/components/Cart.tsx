@@ -23,7 +23,7 @@ const Cart = () => {
   const displayCartProducts = useSelector(
     (state: RootState) => state.product.cartList
   );
-  const loggedIn = useSelector((state: RootState) => state.product.isLoggedIn);
+  const loggedIn = useSelector((state: RootState) => state.product.userData);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,10 +53,10 @@ const Cart = () => {
   }, []);
 
   const handlePayment = () => {
-    if (loggedIn == true) {
+    if (loggedIn) {
       navigate("/payment");
     } else {
-      navigate("/home");
+      navigate("/login");
     }
   };
 

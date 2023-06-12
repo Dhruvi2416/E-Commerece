@@ -6,7 +6,7 @@ import { RootState } from "../redux-toolkit/store";
 import { useNavigate } from "react-router-dom";
 const Payment = () => {
   
-  const loggedIn = useSelector((state:RootState)=>state.product.isLoggedIn)
+  const loggedIn = useSelector((state:RootState)=>state.product.userData)
 const navigate = useNavigate();
 useEffect(()=>{
 

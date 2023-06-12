@@ -15,10 +15,10 @@ const HomeContainer = () => {
 
   return (
     <div className="w-full flex flex-col 2xl:mt-52">
-      <div className="fixed z-30 w-full overflow-auto scrollbar-thin scrollbar-w-0 scrollbar-thumb-white scrollbar-track-white bg-primary border-t-2 border-b-2 flex py-4 justify-start xl:justify-center items-center -mt-6 md:-mt-12 lg:-mt-18 2xl:-mt-24 ">
+      <a href="#dhruvi"><div  className="fixed z-30 w-full overflow-auto scrollbar-thin scrollbar-w-0 scrollbar-thumb-white scrollbar-track-white bg-primary border-t-2 border-b-2 flex py-4 justify-start xl:justify-center items-center -mt-6 md:-mt-12 lg:-mt-18 2xl:-mt-24 ">
         {categories.map((item,index) => (
           <div key={item.id} >
-            <button  onClick={() =>  dispatch(favouriteCategory(item.alt))} 
+            <button   onClick={() =>  dispatch(favouriteCategory(item.alt))} 
        
       >
    
@@ -28,7 +28,7 @@ const HomeContainer = () => {
             </button>
           </div>
         ))}
-      </div>
+      </div></a>
       <div className="grid grid-cols-1 xl:grid-cols-2  gap-2 w-full h-[calc(100%-88px)] px-4 md:px-16 mt-8">
         <section className="py-2 flex-1 flex flex-col items-start md:items-center">
           <p className="text-[2.5rem] md:text-[4.5rem] font-bold tracking-normal text-headingColor drop-shadow-md">

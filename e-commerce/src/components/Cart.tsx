@@ -6,10 +6,11 @@ import emptyCart from "./animation/emptyCart.json";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
+  totalPriceOfProductsBought,
   addedToCart,
   removedFromCart,
-  handleLoggedIn,
 } from "../redux-toolkit/product/productSlice";
+import axios from "axios";
 interface Data {
   category: string;
   id: string;
@@ -23,7 +24,7 @@ const Cart = () => {
   const displayCartProducts = useSelector(
     (state: RootState) => state.product.cartList
   );
-  const loggedIn = useSelector((state: RootState) => state.product.userData);
+  const email = useSelector((state: RootState) => state.product.userEmail);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,11 +54,18 @@ const Cart = () => {
   }, []);
 
   const handlePayment = () => {
-    if (loggedIn) {
-      navigate("/payment");
-    } else {
-      navigate("/login");
-    }
+    axios
+      .post("/paymentpipe")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+    // if (email) {
+    //   dispatch(totalPriceOfProductsBought(totalPrice + 70));
+    //   navigate("/payment");
+    // } else {
+    //   navigate("/login");
+    // }
   };
 
   return (
@@ -76,7 +84,10 @@ const Cart = () => {
               Cart |{" " + displayCartProducts.length} Item
             </div>
             {displayCartProducts.map((cartList) => (
-              <div className=" flex flex-col sm:flex-row mb-4 border-2 p-2 gap-4 justify-center sm:justify-start items-center">
+              <div
+                key={cartList.id}
+                className=" flex flex-col sm:flex-row mb-4 border-2 p-2 gap-4 justify-center sm:justify-start items-center"
+              >
                 <img src={cartList.imageUrl} className="h-40 w-40" />
                 <div className="lg:w-96 ">
                   <p className="font-semibold text-xl flex justify-center sm:justify-start ">

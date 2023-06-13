@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { DocumentData } from "firebase/firestore";
 // import { getAllItems } from "../data/FirebaseFunctions";
@@ -28,22 +28,29 @@ const Products = () => {
   const categoryChoosen = useSelector(
     (state: RootState) => state.product.categoryChoosen
   );
-
+  const containerRef = useRef(null);
   const container = document.getElementById("lottie-container");
 
   useEffect(() => {
-    console.log("Error? outside if")
-    if (container) {
-      Lottie.loadAnimation({
+    console.log("Error? outside if");
+    if (containerRef.current) {
+      const container = containerRef.current;
+      const animation = Lottie.loadAnimation({
         container: container,
         renderer: "svg",
         loop: false,
         autoplay: true,
-        animationData: outOfStock, // Update the animation file path and extension
+        animationData: outOfStock,
       });
-      console.log("Error?")
+      console.log("Error?");
+      
+      // Cleanup the animation when component unmounts or categoryChoosen changes
+      return () => {
+        animation.destroy();
+      };
     }
   }, [categoryChoosen]);
+
 
   useEffect(() => {
     dispatch(favouriteCategory(""));
@@ -117,7 +124,7 @@ const Products = () => {
           </div>
         ) : (
           <h1 className="flex flex-col justify-center mt-2 font-semibold text-2xl max-w-full ">
-            <div id="lottie-container" className="h-96" />
+            <div ref={containerRef}id="lottie-container" className="h-96" />
             <p
               id="dhruvi"
               className="flex justify-center text-2xl font-semibold text-pink-700 mt-16"

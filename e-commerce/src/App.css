@@ -23,7 +23,7 @@ body::-webkit-scrollbar {
 
 .scrolls::-webkit-scrollbar {
   display: none;
-}
+} 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

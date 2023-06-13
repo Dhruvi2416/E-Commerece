@@ -9,14 +9,14 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../redux-toolkit/store";
 import { useNavigate } from "react-router-dom";
 import {
-  handleLoggedIn,
+  
   handleLoggedOut,
 } from "../redux-toolkit/product/productSlice";
 import { useDispatch } from "react-redux";
 
 const Header = () => {
-  const loggedIn = useSelector((state: RootState) => state.product.userData);
-
+  const email = useSelector((state: RootState) => state.product.userEmail);
+const photoUrl = useSelector((state:RootState)=> state.product.userPhotoUrl)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const addProduct = useSelector((state: RootState) => state.product.cartList);
@@ -40,7 +40,7 @@ const Header = () => {
   const logout = () => {
     setIsMenu(false);
 
-    dispatch(handleLoggedOut(null));
+    dispatch(handleLoggedOut());
     navigate("/home");
   };
   const location = useLocation();
@@ -67,7 +67,7 @@ const Header = () => {
               
               </Link>
             )}
-            {routeName !== "/payment" && routeName !== "/login" && loggedIn && (
+            {routeName !== "/payment" && routeName !== "/login" && email && (
               <li
                 className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
                 onClick={() => navigate("/payment")}
@@ -95,14 +95,14 @@ const Header = () => {
             <motion.img
               whileTap={{ scale: 0.6 }}
               className="w-10 min-w-[40px] h-10 min-h-[40px] cursor-pointer rounded-full"
-              src={loggedIn ? loggedIn.photoURL! : "/assets/avatar.png"}
+              src={email ? photoUrl! : "/assets/avatar.png"}
               alt="user"
               onClick={signIn}
             />
-            {loggedIn && isMenu && (
+            {email && isMenu && (
               <div className="w-40 z-50 bg-gray-50 shadow-2xl border-2 rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
-                {loggedIn?.email === process.env.REACT_APP_ADMIN_EMAIL &&
+                {email === process.env.REACT_APP_ADMIN_EMAIL &&
                   routeName !== "/createItem" &&
                   routeName !== "/login" && (
                     <Link to="/createItem">
@@ -125,7 +125,7 @@ const Header = () => {
                 </p>
               </div>
             )}
-            {!loggedIn && isMenu && (
+            {!email && isMenu && (
               <ul>
                 <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4 gap-3">
                   {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
@@ -168,16 +168,16 @@ const Header = () => {
           <motion.img
             whileTap={{ scale: 0.6 }}
             className="w-10 min-w-[40px] h-10 min-h-[40px] cursor-pointer rounded-full"
-            src={loggedIn ? loggedIn.photoURL! : "/assets/avatar.png"}
+            src={email ? photoUrl! : "/assets/avatar.png"}
             alt="user"
             onClick={signIn}
           />
-          {loggedIn && isMenu && (
+          {email && isMenu && (
             <ul className="flex gap-8">
               <div className="w-40 border-2 bg-white z-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4">
                 {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
-                {loggedIn.email === process.env.REACT_APP_ADMIN_EMAIL &&
+                {email === process.env.REACT_APP_ADMIN_EMAIL &&
                   routeName !== "/createItem" &&
                   routeName !== "/login" && (
                     <Link to="/createItem">
@@ -201,7 +201,7 @@ const Header = () => {
                 
                 )}
                 {routeName !== "/payment" &&
-                  loggedIn &&
+                  email &&
                   routeName !== "/login" && (
                     <li
                       className=" py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
@@ -223,7 +223,7 @@ const Header = () => {
               </div>
             </ul>
           )}{" "}
-          {!loggedIn && isMenu && (
+          {!email && isMenu && (
             <ul className="flex gap-8">
               <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4 gap-3 ">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}

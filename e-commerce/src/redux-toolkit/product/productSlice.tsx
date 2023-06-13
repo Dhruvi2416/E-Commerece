@@ -8,8 +8,9 @@ export interface ProductState {
   allProductsList: Data[];
   viewProduct: Data;
   cartList:Data[]|[];
-  userData:null|User;
- 
+  userEmail:string;
+  userPhotoUrl:string;
+ totalCostOfProducts:number;
 }
 
 interface Data {
@@ -22,8 +23,9 @@ interface Data {
 }
 
 const initialState:ProductState = {
-  
-  userData:null,
+  totalCostOfProducts:0,
+  userPhotoUrl:"",
+  userEmail:"",
   categoryChoosen: "",
   cartList:[],
   viewProduct: {
@@ -117,15 +119,21 @@ export const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    
-    handleLoggedOut: (state, action:PayloadAction<null>)=>{
-      state.userData = action.payload
-      },
-    handleLoggedIn: (state, action:PayloadAction<User>)=>{
-    state.userData = action.payload
-    console.log("Actionjackson"+action.payload.email)
+    totalPriceOfProductsBought:(state,action:PayloadAction<number> )=>{
+      state.totalCostOfProducts = action.payload
     },
-
+    handleLoggedOut: (state)=>{
+      state.userEmail = "";
+      state.userPhotoUrl=""
+      },
+    handleUserEMail: (state, action:PayloadAction<string>)=>{
+    state.userEmail = action.payload
+    // console.log("Actionjackson"+action.payload.email)
+    },
+    handleUserPhotUrl: (state, action:PayloadAction<string>)=>{
+      state.userEmail = action.payload
+      // console.log("Actionjackson"+action.payload.email)
+      },
     favouriteCategory: (state, action: PayloadAction<string>) => {
       state.categoryChoosen = action.payload;
     },
@@ -169,6 +177,6 @@ export const productSlice = createSlice({
  
 });
 
-export const { favouriteCategory, seeProduct,addedToCart,removedFromCart,handleLoggedIn,handleLoggedOut } =
+export const { favouriteCategory, seeProduct,addedToCart,removedFromCart,handleUserEMail,handleUserPhotUrl,handleLoggedOut,totalPriceOfProductsBought } =
   productSlice.actions;
 export default productSlice.reducer;

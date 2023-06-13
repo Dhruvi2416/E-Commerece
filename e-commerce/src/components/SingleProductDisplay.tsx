@@ -60,7 +60,7 @@ const SingleProductDisplay = () => {
                   viewProduct.id === cartedItem.id && (
                     <div key={cartedItem.id} className="mt-8 mb-4">
                       <button className="flex justify-center bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mt-4 mb-4 w-56 mx-2  text-lg  text-white font-semibold">
-                        Click on Cart Icon{" "}
+                        Added Successfully{" "}
                         <VscSmiley className="text-xl ml-2 font-semibold mt-1 " />
                       </button>
                     </div>

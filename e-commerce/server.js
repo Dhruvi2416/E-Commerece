@@ -1,35 +1,20 @@
-const router = require("express").Router();
-const cors = require("cors"); //acts like a communication bridge between backend and front end
-const { v4: uuid } = require("uuid");
-const stripe = require("stripe")(
-  "sk_test_51NIYnZSBLWM1IpRJLGzixR2Y5KpJhu5Zr82UcZmsutLDyyxLtL8yVTg91uIjpKJDAq9lS1bBLJ4anAMgbpHY1gE6005XK9DMIc"
-);
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const port = 5000;
 
+// Middlewares
 app.use(cors());
 
-app.use(express.json());
+// Routes
+const paymentRouter = require("./routes/payment");
+app.use("/paymentSuccess", paymentRouter);
 app.get("/", (req, res) => {
-  res.send("Thanks for buying");
+  res.send("Hello, Server is running!");
 });
-
-router.post("/create-checkout-session", async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: "T-shirt",
-          },
-          unit_amount: 2000,
-        },
-        quantity: 1,
-      },
-    ],
-    mode: "payment",
-    success_url: "/paymentpipe",
-    cancel_url: "http://localhost:4242/cancel",
-  });
-
-  res.send({ url: session.url });
+app.get("/paymentSuccess/orders", (req, res) => {
+  // Handle the GET request and send the response
+  res.send("GET request to /paymentSuccess/orders");
 });
+// Start the server
+app.listen(port, () => console.log(`Server started on port ${port}`));

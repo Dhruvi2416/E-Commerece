@@ -54,18 +54,12 @@ const Cart = () => {
   }, []);
 
   const handlePayment = () => {
-    axios
-      .post("/paymentpipe")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-    // if (email) {
-    //   dispatch(totalPriceOfProductsBought(totalPrice + 70));
-    //   navigate("/payment");
-    // } else {
-    //   navigate("/login");
-    // }
+    if (email) {
+      dispatch(totalPriceOfProductsBought(totalPrice + 70));
+      navigate("/payment");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (

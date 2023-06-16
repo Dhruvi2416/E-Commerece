@@ -10,21 +10,16 @@ import {
   addedToCart,
   removedFromCart,
 } from "../redux-toolkit/product/productSlice";
-import axios from "axios";
-interface Data {
-  category: string;
-  id: string;
-  imageUrl: string;
-  price: number;
-  qty: number;
-  title: string;
-}
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const displayCartProducts = useSelector(
     (state: RootState) => state.product.cartList
   );
-  const email = useSelector((state: RootState) => state.product.userEmail);
+  const loggedIn = useSelector(
+    (state: RootState) => state.product.userLoggedIn
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,16 +49,22 @@ const Cart = () => {
   }, []);
 
   const handlePayment = () => {
-    if (email) {
+    if (loggedIn) {
       dispatch(totalPriceOfProductsBought(totalPrice + 70));
       navigate("/payment");
     } else {
-      navigate("/login");
+      setTimeout(() => navigate("/home"), 2000);
+
+      toast.success("Please Login First!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
     }
   };
 
   return (
     <div className="w-full flex flex-col 2xl:mt-48 lg:h-[75vh] items-center px-4  ">
+      <ToastContainer />
       {displayCartProducts.length === 0 ? (
         <div>
           <div id="lottie-container" className="h-96" />

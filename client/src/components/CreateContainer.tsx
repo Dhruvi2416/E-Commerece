@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const CreateContainer = () => {
 
-const loggedIn = useSelector((state:RootState)=>state.product.userEmail)
+const loggedIn = useSelector((state:RootState)=>state.product.userLoggedIn)
 const navigate = useNavigate();
 useEffect(()=>{
 

@@ -7,12 +7,18 @@ export interface ProductState {
   allProductsList: Data[];
   viewProduct: Data;
   cartList: Data[] | [];
-  userEmail: string;
-  userPhotoUrl: string;
-  totalCostOfProducts: number;
   userInfo: userData;
-}
 
+
+  totalCostOfProducts: number;
+  userLoggedIn: boolean;
+}
+interface userData {
+  name: string;
+  email: string;
+  mobile: string;
+  address: string;
+}
 interface userData {
   name: string;
   email: string;
@@ -29,15 +35,14 @@ interface Data {
 }
 
 const initialState: ProductState = {
+  totalCostOfProducts: 0,
+  userLoggedIn: false,
   userInfo: {
     name: "",
     address: "",
     email: "",
     mobile: "",
   },
-  totalCostOfProducts: 0,
-  userPhotoUrl: "",
-  userEmail: "",
   categoryChoosen: "",
   cartList: [],
   viewProduct: {
@@ -143,18 +148,12 @@ export const productSlice = createSlice({
     totalPriceOfProductsBought: (state, action: PayloadAction<number>) => {
       state.totalCostOfProducts = action.payload;
     },
-    handleLoggedOut: (state) => {
-      state.userEmail = "";
-      state.userPhotoUrl = "";
-    },
-    handleUserEMail: (state, action: PayloadAction<string>) => {
-      state.userEmail = action.payload;
+
+    handleUserLoggedIn: (state, action: PayloadAction<boolean>) => {
+      state.userLoggedIn = action.payload;
       // console.log("Actionjackson"+action.payload.email)
     },
-    handleUserPhotUrl: (state, action: PayloadAction<string>) => {
-      state.userEmail = action.payload;
-      // console.log("Actionjackson"+action.payload.email)
-    },
+
     favouriteCategory: (state, action: PayloadAction<string>) => {
       state.categoryChoosen = action.payload;
     },
@@ -201,14 +200,12 @@ export const productSlice = createSlice({
 });
 
 export const {
-  collectUserInformation,
   favouriteCategory,
   seeProduct,
   addedToCart,
   removedFromCart,
-  handleUserEMail,
-  handleUserPhotUrl,
-  handleLoggedOut,
+collectUserInformation,
+  handleUserLoggedIn,
   totalPriceOfProductsBought,
 } = productSlice.actions;
 export default productSlice.reducer;

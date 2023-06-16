@@ -32,7 +32,7 @@ const Payment = () => {
         };
         shoppedItem(newItem);
         toast.success("Done!", {
-          position: toast.POSITION.TOP,
+          position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         });
       } else {
@@ -44,7 +44,7 @@ const Payment = () => {
       }
     } catch (error) {
       toast.error("Payment completed successfully", {
-        position: toast.POSITION.TOP,
+        position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
     }
@@ -93,7 +93,7 @@ const Payment = () => {
           };
 
           toast.success("Payment completed successfully", {
-            position: toast.POSITION.TOP,
+            position: toast.POSITION.TOP_CENTER,
             autoClose: 2000,
           });
           addList(result.data.order.id);

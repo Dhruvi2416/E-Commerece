@@ -40,8 +40,29 @@ const Header = () => {
   // initialize Authentication service to the following app
   const firebaseAuth = getAuth(app);
 
-  const login = async () => {
+  const loginMobile = async () => {
     setIsMenu((prevState) => !prevState);
+    try {
+      if (isUser === null) {
+        const response = await signInWithPopup(
+          firebaseAuth,
+          provider.setCustomParameters({
+            prompt: "select_account",
+          })
+        );
+
+        setIsUser(response);
+        dispatch(handleUserLoggedIn(true));
+        dispatch(collectUserEmail(response.user.email!));
+        dispatch(collectUserPhotoURL(response.user.photoURL!));
+      }
+    } catch (error) {
+      // Handle the unknown error case
+      console.log("Sign-in error:", error);
+      // Display a generic error message or perform any other action
+    }
+  };
+  const login = async () => {
     try {
       if (isUser === null) {
         const response = await signInWithPopup(
@@ -69,8 +90,12 @@ const Header = () => {
 
   // logout
 
-  const logout = () => {
+  const logoutMobile = () => {
     setIsMenu((prevState) => !prevState);
+    dispatch(handleUserLoggedIn(false));
+    navigate("/home");
+  };
+  const logout = () => {
     dispatch(handleUserLoggedIn(false));
     navigate("/home");
   };
@@ -132,7 +157,7 @@ const Header = () => {
             {isLoggedIn ? (
               <>
                 {" "}
-                {email === "dhruvikalpesh2001@gmail.com" && (
+                {email === process.env.REACT_APP_OWNER_EMAIL && (
                   <Link to="/createItem" className="flex flex-col gap-2">
                     {routeName === "/createItem" ? (
                       <li className="text-base font-semibold text-pink-700 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
@@ -197,12 +222,12 @@ const Header = () => {
             alt="user"
             onClick={login}
           />
-          {isUser && isMenu && (
+          {isLoggedIn && isMenu && (
             <ul className="flex gap-8">
               <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12">
                 {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
-                {isUser.user?.email === "dhruvikalpesh2001@gmail.com" && (
+                {email === process.env.REACT_APP_OWNER_EMAIL && (
                   <Link to="/createItem">
                     <li
                       className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
@@ -222,21 +247,21 @@ const Header = () => {
 
                 <li
                   className="px-4 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                  onClick={logout}
+                  onClick={logoutMobile}
                 >
                   LogOut <MdLogout />
                 </li>
               </div>
             </ul>
           )}{" "}
-          {!isUser && isMenu && (
+          {!isLoggedIn && isMenu && (
             <ul className="flex gap-8">
               <div className="w-40 bg-gray-50 shadow-2xl shadow-black rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-10 gap-3 ">
                 {/* if user is admin here I am admin with my e-mail id then only allow to create new item for adding */}
 
                 <li
                   className="px-4 py-2 flex items-center gap-3 cursor-pointer bg-gray-200 justify-center rounded-md shadow-md hover:bg-slate-300 transition-all duration-100 ease-in-out text-textColor text-base"
-                  onClick={login}
+                  onClick={loginMobile}
                 >
                   Login
                   <MdLogout />

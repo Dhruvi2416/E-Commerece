@@ -1,25 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux-toolkit/store";
 import { useDispatch } from "react-redux";
-import { collectUserInformation } from "../redux-toolkit/product/productSlice";
+import {
+  collectUserInformation,
+  emptyCartList,
+} from "../redux-toolkit/product/productSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { shoppedItem } from "../data/FirebaseFunctions";
+import { useNavigate } from "react-router-dom";
 const Payment = () => {
-  const totalPrice = useSelector((state) => state.product.totalCostOfProducts);
+  const navigate = useNavigate();
+  const loggedIn = useSelector((state) => state.product.userLoggedIn);
   const cartList = useSelector((state) => state.product.cartList);
+  const email = useSelector((state) => state.product.userEmail);
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate("/home");
+
+      toast.error("Please Login First!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    }
+
+    if (cartList.length < 1) {
+      navigate("/cart");
+    }
+  }, []);
+
+  const totalPrice = useSelector((state) => state.product.totalCostOfProducts);
+
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+
   const [mobile, setMobile] = useState("");
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
 
   const addList = (order_id) => {
-    console.log("order",order_id)
+    console.log("order", order_id);
     try {
       if (order_id) {
         const newItem = {
@@ -38,7 +61,7 @@ const Payment = () => {
       } else {
         // Handle the case when the order_id is undefined or not valid
         toast.error("Invalid order ID", {
-          position: toast.POSITION.TOP,
+          position: toast.POSITION.TOP_CENTER,
           autoClose: 2000,
         });
       }
@@ -49,7 +72,6 @@ const Payment = () => {
       });
     }
   };
-  
 
   async function displayRazorpay() {
     if (!error && name && address && email && mobile) {
@@ -62,7 +84,12 @@ const Payment = () => {
         })
       );
       // creating a new order
-      const result = await axios.post("http://localhost:4000/api/checkout",{amount:totalPrice*100}); //firebase store ==> order Id
+      const result = await axios.post(
+        "https://shopsify-backend.onrender.com/api/checkout",
+        {
+          amount: totalPrice * 100,
+        }
+      ); //firebase store ==> order Id
       console.log(result);
       // if (!result) {
       //   alert("Server error. Are you online?");
@@ -70,19 +97,22 @@ const Payment = () => {
       // }
 
       // Getting the order details back
-      const {amount,currency } = result.data;
-      console.log("orderof Dhruvi",result.data.order.id);
-      const apiKey = await axios.get("http://localhost:4000/api/getKey");
+      const { amount, currency } = result.data;
+      console.log("orderof Dhruvi", result.data.order.id);
+      const apiKey = await axios.get(
+        "https://shopsify-backend.onrender.com/api/getKey"
+      );
       console.log("KEY", apiKey.data.key);
       const { key } = apiKey.data;
-      console.log(totalPrice)
+      console.log(totalPrice);
       const options = {
         key: key, // Enter the Key ID generated from the Dashboard
         amount: amount,
         currency: currency,
         name: "Shopsify",
         description: "Test Transaction",
-        callback_url: "http://localhost:4000/api/paymentVerification",
+        callback_url:
+          "https://shopsify-backend.onrender.com/api/paymentVerification",
         order_id: result.data.order.id,
         handler: async function (response) {
           const data = {
@@ -97,6 +127,7 @@ const Payment = () => {
             autoClose: 2000,
           });
           addList(result.data.order.id);
+          dispatch(emptyCartList());
         },
         prefill: {
           name: name,
@@ -142,19 +173,7 @@ const Payment = () => {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="mb-4">
-          <label className="block mb-2 font-bold" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="border text-black border-gray-300 px-3 py-2 rounded-md w-full"
-            type="email"
-            id="email"
-            value={email}
-            placeholder="Enter Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+
         <div className="mb-4">
           <label className="block mb-2 font-bold" htmlFor="mobile">
             Mobile
@@ -218,7 +237,7 @@ const Payment = () => {
         </div>
       </form>
 
-      {error && <p className="text-red-600 font-semibold">{error}</p>}
+      {error && <p className="text-red-600 font-semibold w-72">{error}</p>}
     </div>
   );
 };

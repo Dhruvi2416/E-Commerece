@@ -1,29 +1,30 @@
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { DocumentData } from "firebase/firestore";
-// import { getAllItems } from "../data/FirebaseFunctions";
-import outOfStock from "./animation/out of stock.json";
+import { getAllItems } from "../../data/FirebaseFunctions";
+import outOfStock from "../animation/out of stock.json";
 import Lottie from "lottie-web";
-import type { RootState } from "../redux-toolkit/store";
+import type { RootState } from "../../redux-toolkit/store";
 import {
   favouriteCategory,
   seeProduct,
-} from "../redux-toolkit/product/productSlice";
+} from "../../redux-toolkit/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { categories } from "../data/data";
-import { useNavigate } from "react-router-dom";
-const Products = () => {
-  //   const [product, setProduct] = useState<DocumentData[]>([]);
 
-  //   const fetchData = async () => {
-  //     await getAllItems().then((data) => {
-  //       console.log(data);
-  //       setProduct(data);
-  //     });
-  //   };
-  //   useEffect(() => {
-  //     fetchData();
-  //   }, []);
+import { useNavigate } from "react-router-dom";
+
+const Products = () => {
+  const [product, setProduct] = useState<DocumentData[]>([]);
+  const email = useSelector((state: RootState) => state.product.userEmail);
+  const fetchData = async () => {
+    await getAllItems().then((data: DocumentData[]) => {
+      console.log(data);
+      setProduct(data);
+    });
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const categoryChoosen = useSelector(
     (state: RootState) => state.product.categoryChoosen
@@ -43,7 +44,7 @@ const Products = () => {
         animationData: outOfStock,
       });
       console.log("Error?");
-      
+
       // Cleanup the animation when component unmounts or categoryChoosen changes
       return () => {
         animation.destroy();
@@ -51,16 +52,15 @@ const Products = () => {
     }
   }, [categoryChoosen]);
 
-
   useEffect(() => {
     dispatch(favouriteCategory(""));
-    console.log("Error2?")
+    console.log("Error2?");
   }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const product = useSelector(
-    (state: RootState) => state.product.allProductsList
-  );
+  // const product = useSelector(
+  //   (state: RootState) => state.product.allProductsList
+  // );
 
   const filteredData = product.filter((item) => {
     return item.category.includes(categoryChoosen);
@@ -109,6 +109,7 @@ const Products = () => {
                               price: item.price,
                               qty: item.qty,
                               title: item.title,
+                              email: email,
                             })
                           );
                           navigate("/viewProduct");
@@ -124,7 +125,7 @@ const Products = () => {
           </div>
         ) : (
           <h1 className="flex flex-col justify-center mt-2 font-semibold text-2xl max-w-full ">
-            <div ref={containerRef}id="lottie-container" className="h-96" />
+            <div ref={containerRef} id="lottie-container" className="h-96" />
             <p
               id="dhruvi"
               className="flex justify-center text-2xl font-semibold text-pink-700 mt-16"
@@ -163,6 +164,7 @@ const Products = () => {
                         price: item.price,
                         qty: item.qty,
                         title: item.title,
+                        email,
                       })
                     );
                     navigate("/viewProduct");

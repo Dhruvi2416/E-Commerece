@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../redux-toolkit/store";
 import { useDispatch } from "react-redux";
@@ -10,6 +10,7 @@ const SingleProductDisplay = () => {
   const viewProduct = useSelector(
     (state: RootState) => state.product.viewProduct
   );
+  const email = useSelector((state:RootState)=>state.product.userEmail)
   const dispatch = useDispatch();
   const addToCartFunc = () => {
     dispatch(
@@ -20,6 +21,7 @@ const SingleProductDisplay = () => {
         price: viewProduct.price,
         qty: 1,
         title: viewProduct.title,
+        email,
       })
     );
   };
@@ -29,7 +31,8 @@ const SingleProductDisplay = () => {
   const exist = cartedList.some((item) => viewProduct.id === item.id);
   console.log(cartedList);
   return (
-    <div className="flex h-1/3 flex-col xl:flex-row xl:mt-32 justify-center items-center mx-11 shadow-lg shadow-gray-500 rounded-lg bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 gap-2 2xl:gap-1">
+ 
+   <div className="flex h-1/3 flex-col xl:flex-row xl:mt-32 justify-center items-center mx-11 shadow-lg shadow-gray-500 rounded-lg bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 gap-2 2xl:gap-1">
       <div className="flex w-full justify-center xl:justify-start mt-4 xl:mt-0">
         <img
           className=" w-96 xl:h-full 2xl:w-full items-center  mb-4 xl:mb-0 px-2 sm:px-0 sm:shadow-lg sm:shadow-black-300"

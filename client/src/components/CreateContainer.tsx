@@ -4,6 +4,7 @@ import { categories } from "../data/data";
 import Loader from "./Loader";
 import { ImCross } from "react-icons/im";
 import { FaRupeeSign } from "react-icons/fa";
+import { SiQuantcast } from "react-icons/si";
 import { storage } from "../firebase.config";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { saveItem } from "../data/FirebaseFunctions";
@@ -211,7 +212,7 @@ useEffect(()=>{
           </div>
 
           <div className="text-textColor bg-primary mt-8 flex border-b border-gray-500">
-            <FaRupeeSign className="text-lg" />
+            <SiQuantcast className="text-lg" />
 
             <input
               required

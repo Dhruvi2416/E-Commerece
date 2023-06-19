@@ -26,11 +26,18 @@ export const shoppedItem = async (data) => {
   });
 };
 
-// export const getAllItems = async ()=>{
-//   const items = await getDocs(
-//     query(collection(firestore,"shoppingitems"),orderBy("id","desc"))
-//   );
+export const getAllItems = async () => {
+  const items = await getDocs(
+    query(collection(firestore, "shoppingitems"), orderBy("id", "desc"))
+  );
 
-//   return items.docs.map((doc)=>doc.data())
+  return items.docs.map((doc) => doc.data());
+};
 
-// }
+export const myOrders = async () => {
+  const items = await getDocs(
+    query(collection(firestore, "boughtProducts"), orderBy("id", "desc"))
+  );
+
+  return items.docs.map((doc) => doc.data());
+};

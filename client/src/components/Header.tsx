@@ -220,11 +220,11 @@ const Header = () => {
             className="w-10 min-w-[40px] h-10 min-h-[40px] cursor-pointer rounded-full"
             src={isLoggedIn ? photoURL : "/assets/avatar.png"}
             alt="user"
-            onClick={login}
+            onClick={loginMobile}
           />
           {isLoggedIn && isMenu && (
             <ul className="flex gap-8">
-              <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-12">
+              <div className="w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col absolute px-4 py-2 top-12 -right-4">
                 {/* if user is admin, here I am admin with my e-mail id then only allow to create new item for adding */}
 
                 {email === process.env.REACT_APP_OWNER_EMAIL && (
@@ -243,6 +243,13 @@ const Header = () => {
                   onClick={() => setIsMenu(false)}
                 >
                   Home
+                </Link>
+                <Link
+                  to={"/myorders"}
+                  className="py-2 flex items-center gap-3 cursor-pointer hover:bg-slate-100 transition-all duration-100 ease-in-out text-textColor text-base"
+                  onClick={() => setIsMenu(false)}
+                >
+                  My Orders
                 </Link>
 
                 <li

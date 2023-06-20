@@ -128,6 +128,9 @@ const Payment = () => {
           });
           addList(result.data.order.id);
           dispatch(emptyCartList());
+          setAddress("");
+          setName("");
+          setMobile("");
         },
         prefill: {
           name: name,

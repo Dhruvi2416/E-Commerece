@@ -4,38 +4,13 @@ import { categories } from "../../data/data";
 import Products from "./DisplayAllProducts";
 import React, { useState, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
-import { favouriteCategory } from "../../redux-toolkit/product/productSlice";
+
 const HomeContainer = () => {
-  const dispatch = useDispatch();
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
-  const handleClick = (index: number) => {
-    setClickedIndex(index);
-  };
+
 
   return (
-    <div className="w-full flex flex-col 2xl:mt-52">
-      <a href="#dhruvi">
-        <div className="fixed z-30 w-full overflow-auto scrollbar-thin scrollbar-w-0 scrollbar-thumb-white scrollbar-track-white bg-primary border-2 flex py-4 justify-start xl:justify-center items-center -mt-6 md:-mt-14 lg:-mt-18 2xl:-mt-24 ">
-          {categories.map((item, index) => (
-            <div key={item.id}>
-              <button onClick={() => dispatch(favouriteCategory(item.alt))}>
-                <p
-                  className={`w-32 hover:text-pink-700 ${
-                    clickedIndex === index
-                      ? "text-pink-700 font-bold"
-                      : "text-black"
-                  }`}
-                  onClick={() => handleClick(index)}
-                >
-                  {" "}
-                  {item.alt}{" "}
-                </p>
-              </button>
-            </div>
-          ))}
-        </div>
-      </a>
+    <div className="w-full flex flex-col mt-10 sm:mt-12 2xl:mt-52 bg-white">
+     
       <div className="grid grid-cols-1 xl:grid-cols-2  gap-2 w-full h-[calc(100%-88px)] px-4 md:px-16 mt-8">
         <section className="py-2 flex-1 flex flex-col items-start md:items-center">
           <p className="text-[2.5rem] md:text-[4.5rem] font-bold tracking-normal text-headingColor drop-shadow-md">

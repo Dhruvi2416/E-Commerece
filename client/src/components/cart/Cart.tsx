@@ -44,7 +44,7 @@ const Cart = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col 2xl:mt-48 lg:h-[75vh] items-center px-4  ">
+    <div className="w-full flex flex-col mt-12 2xl:mt-48 lg:h-[75vh] items-center px-4  ">
       <ToastContainer />
       {displayCartProducts.length === 0 ? (
         <div>

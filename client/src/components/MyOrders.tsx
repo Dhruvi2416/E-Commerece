@@ -77,7 +77,7 @@ const MyOrders = () => {
   };
 
   return (
-    <div className="w-full flex justify-center  2xl:mt-44  items-center px-4  ">
+    <div className="w-full flex justify-center mt-8 2xl:mt-44  items-center px-4  ">
       <div className="grid text-black  items-center rounded-lg gap-2">
         {filteredData.map((order) =>
           order.cartList?.map((product: Data) => (
@@ -124,3 +124,5 @@ const MyOrders = () => {
 };
 
 export default MyOrders;
+
+

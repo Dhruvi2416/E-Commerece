@@ -33,7 +33,7 @@ const SingleProductDisplay = () => {
   return (
  
    <div className="flex h-1/3 flex-col xl:flex-row xl:mt-32 justify-center items-center mx-11 shadow-lg shadow-gray-500 rounded-lg bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 gap-2 2xl:gap-1">
-      <div className="flex w-full justify-center xl:justify-start mt-4 xl:mt-0">
+      <div className="flex w-full justify-center xl:justify-start mt-8 xl:mt-0">
         <img
           className=" w-96 xl:h-full 2xl:w-full items-center  mb-4 xl:mb-0 px-2 sm:px-0 sm:shadow-lg sm:shadow-black-300"
           src={viewProduct.imageUrl}

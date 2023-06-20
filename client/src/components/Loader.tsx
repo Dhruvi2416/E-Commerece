@@ -1,5 +1,5 @@
 import React from 'react';
-
+// loader for displaying loading 
 const Loader = () => {
   return (
     <div>

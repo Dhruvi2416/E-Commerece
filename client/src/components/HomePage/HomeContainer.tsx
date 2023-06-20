@@ -4,13 +4,10 @@ import { categories } from "../../data/data";
 import Products from "./DisplayAllProducts";
 import React, { useState, useEffect } from "react";
 
-
 const HomeContainer = () => {
-
-
   return (
+    // info regarding e-commerce project
     <div className="w-full flex flex-col mt-10 sm:mt-12 2xl:mt-52 bg-white">
-     
       <div className="grid grid-cols-1 xl:grid-cols-2  gap-2 w-full h-[calc(100%-88px)] px-4 md:px-16 mt-8">
         <section className="py-2 flex-1 flex flex-col items-start md:items-center">
           <p className="text-[2.5rem] md:text-[4.5rem] font-bold tracking-normal text-headingColor drop-shadow-md">
@@ -59,6 +56,7 @@ const HomeContainer = () => {
             commerce worldwide.
           </p>
         </section>
+        {/* this is just a static div where what types of products are available  */}
         <div className="hidden md:grid  md:grid-cols-3 items-center bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 rounded-lg">
           {categories.map((category) => {
             return (

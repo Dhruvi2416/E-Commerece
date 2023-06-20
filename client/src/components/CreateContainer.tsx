@@ -12,14 +12,13 @@ import { RootState } from "../redux-toolkit/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const CreateContainer = () => {
-
-const loggedIn = useSelector((state:RootState)=>state.product.userLoggedIn)
-const navigate = useNavigate();
-useEffect(()=>{
-
-!loggedIn && navigate("/home")
-
-},[])
+  const loggedIn = useSelector(
+    (state: RootState) => state.product.userLoggedIn
+  );
+  const navigate = useNavigate();
+  useEffect(() => {
+    !loggedIn && navigate("/home");
+  }, []);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +57,7 @@ useEffect(()=>{
       setAlert("Upload image only!");
     }
   };
-
+  // deleteImage
   const deleteImage = () => {
     try {
       setTempImgUrl("");
@@ -106,7 +105,7 @@ useEffect(()=>{
         saveItem(newItem);
         setAlert("Data Uploaded Successfully!");
         setTimeout(() => setAlert(""), 2000);
-
+        // after uplaoding data to firebase clear data
         const clearData = () => {
           setTitle("");
           setCategory("");
@@ -115,7 +114,9 @@ useEffect(()=>{
           setQuantity(0);
         };
         clearData();
-      } else {
+      }
+      // if fields are not filled properly than display error
+      else {
         setAlert("Please fill all the fields!");
         setTimeout(() => setAlert(""), 2000);
       }
@@ -126,6 +127,7 @@ useEffect(()=>{
 
   return (
     <div className="h-full flex flex-col justify-center items-center w-full xl:mt-32">
+      {/* if any alert prevails it will show above */}
       <p className="font-semibold text-2xl text-red-700 mt-4 flext justify-center">
         {alert && alert}
       </p>
@@ -140,7 +142,7 @@ useEffect(()=>{
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-
+        {/* for owner to select category on which they are adding product */}
         <select
           required
           value={category}
@@ -182,10 +184,12 @@ useEffect(()=>{
                 />
               </>
             ) : (
+              // if uploading image than loading
               <Loader />
             )
           ) : (
             <>
+              {/* delete image */}
               <img
                 className="h-[10rem] w-auto"
                 src={tempImgUrl}
@@ -198,6 +202,7 @@ useEffect(()=>{
             </>
           )}
         </div>
+        {/* price of product */}
         <div className=" flex flex-col">
           <div className="text-textColor bg-primary mt-8 flex border-b border-gray-500">
             <FaRupeeSign className="text-lg" />
@@ -213,7 +218,7 @@ useEffect(()=>{
 
           <div className="text-textColor bg-primary mt-8 flex border-b border-gray-500">
             <SiQuantcast className="text-lg" />
-
+            {/* quantity of product */}
             <input
               required
               type="number"
@@ -224,7 +229,7 @@ useEffect(()=>{
             />
           </div>
         </div>
-
+        {/* on clicking save all the changes will be uploaded to database here firebase */}
         <div className=" mt-4 flex justify-center">
           <button
             className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"

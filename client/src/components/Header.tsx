@@ -25,6 +25,7 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase.config";
 const Header = () => {
+  // clicked index for rturning black to pink text color of selected category
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const handleClick = (index: number) => {
     setClickedIndex(index);
@@ -47,7 +48,7 @@ const Header = () => {
   const firebaseAuth = getAuth(app);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
+// login function comes from firebase
   const login = async () => {
     setIsDropdownOpen(false);
     try {
@@ -58,7 +59,8 @@ const Header = () => {
             prompt: "select_account",
           })
         );
-
+// whatever comes in response of google authentication will be set to isUser and tell reux tha tuser is logged in
+// and collect email and photo url of user
         setIsUser(response);
         dispatch(handleUserLoggedIn(true));
         dispatch(collectUserEmail(response.user.email!));
@@ -70,17 +72,14 @@ const Header = () => {
     }
   };
 
-  // if the user is loggedIn then set all the credentials to the localStorage basically conditioned that null is not being displayed
-
-  // photo URL
-
-  // logout
-
+// logout
   const logout = () => {
     setIsDropdownOpen(false);
     dispatch(handleUserLoggedIn(false));
     navigate("/home");
   };
+
+  // to know current path url of component which is open
   const location = useLocation();
   const routeName = location.pathname;
 
@@ -152,6 +151,7 @@ const Header = () => {
             {isLoggedIn ? (
               <>
                 {" "}
+                {/* this will display only if user is owner */}
                 {email === process.env.REACT_APP_OWNER_EMAIL && (
                   <Link
                     to="/createItem"
@@ -286,7 +286,7 @@ const Header = () => {
           )}
         </div>
       </div>
-
+{/* this will iclude in header only if current path is / or  /home */}
       {routeName == "/home" || routeName == "/" ? (
         <a href="#categorySelected">
           <div className="w-full flex flex-col mt-12 sm:mt-20 2xl:mt-36  bg-white">

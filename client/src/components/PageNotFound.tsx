@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+// page not fond when user navigates to different route
 const PageNotFound = () => {
     const navigate=useNavigate();
   return (

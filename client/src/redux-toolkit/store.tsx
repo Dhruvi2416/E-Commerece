@@ -3,14 +3,14 @@ import productReducer from "./product/productSlice";
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
-
+//used redux 
 const persistConfig = {
   key: 'root',
   storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, productReducer);
-
+// middleware to solve serializable issue
 const middleware = [thunk, ...getDefaultMiddleware({
     serializableCheck: false, // Disable serializable value check
   })];

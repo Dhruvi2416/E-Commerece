@@ -26,6 +26,7 @@ export const shoppedItem = async (data) => {
   });
 };
 
+//get itemas of shopping items that owner added
 export const getAllItems = async () => {
   const items = await getDocs(
     query(collection(firestore, "shoppingitems"), orderBy("id", "desc"))
@@ -34,6 +35,7 @@ export const getAllItems = async () => {
   return items.docs.map((doc) => doc.data());
 };
 
+//get products bought by users
 export const myOrders = async () => {
   const items = await getDocs(
     query(collection(firestore, "boughtProducts"), orderBy("id", "desc"))

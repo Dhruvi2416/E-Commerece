@@ -11,7 +11,8 @@ import PageNotFound from "./components/PageNotFound";
 
 const App = () => {
   return (
-    <AnimatePresence>
+    // library for adding some motions to image
+    <AnimatePresence> 
       <div className="w-screen h-auto flex flex-col bg-primary">
         <Header />
         <main className="mt-24 md:mt-40 2xl:mt-0   py-4 w-full flex justify-center">

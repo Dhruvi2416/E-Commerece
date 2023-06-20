@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux-toolkit/store";
 import { useDispatch } from "react-redux";
 import {
   collectUserInformation,
@@ -9,7 +8,6 @@ import {
 } from "../redux-toolkit/product/productSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { shoppedItem } from "../data/FirebaseFunctions";
 import { useNavigate } from "react-router-dom";
 const Payment = () => {
@@ -40,7 +38,7 @@ const Payment = () => {
   const [mobile, setMobile] = useState("");
   const [address, setAddress] = useState("");
   const [error, setError] = useState("");
-
+// firebase adding payment details
   const addList = (order_id) => {
 
     try {
@@ -66,13 +64,14 @@ const Payment = () => {
         });
       }
     } catch (error) {
-      toast.error("Payment completed successfully", {
+      // payment fail
+      toast.error("Payment invalid", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
       });
     }
   };
-
+   
   async function displayRazorpay() {
     if (!error && name && address && email && mobile) {
       dispatch(
@@ -85,18 +84,14 @@ const Payment = () => {
       );
       // creating a new order
       const result = await axios.post(
+        // backend is hosted on render
         "https://shopsify-backend.onrender.com/api/checkout",
         {
           amount: totalPrice * 100,
         }
       ); //firebase store ==> order Id
    
-      // if (!result) {
-      //   alert("Server error. Are you online?");
-      //   return;
-      // }
-
-      // Getting the order details back
+     
       const { amount, currency } = result.data;
       
       const apiKey = await axios.get(
@@ -104,7 +99,7 @@ const Payment = () => {
       );
       
       const { key } = apiKey.data;
-      
+      // options given to razorpay
       const options = {
         key: key, // Enter the Key ID generated from the Dashboard
         amount: amount,
@@ -126,8 +121,11 @@ const Payment = () => {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 2000,
           });
+          // firebase func passing order id
           addList(result.data.order.id);
+          // emapty cart List
           dispatch(emptyCartList());
+          // set all details to null
           setAddress("");
           setName("");
           setMobile("");
@@ -210,19 +208,7 @@ const Payment = () => {
             placeholder="Enter address"
             onChange={(e) => {
               setAddress(e.target.value);
-              // const inputAddress = e.target.value;
-              // const regex = /(^(?=.*\bIndia\b).*$)|(^.*\bIN\b.*$)/i;
-              // if (
-              //   inputAddress.length >= 20 &&
-              //   (regex.test(inputAddress) || inputAddress === "")
-              // ) {
-              //   setAddress(inputAddress);
-              //   setError("");
-              // } else if (inputAddress.length < 20) {
-              //   setError("Address must be at least 20 characters long!");
-              // } else {
-              //   setError("Only Indian addresses are allowed!");
-              // }
+           
             }}
           ></textarea>
         </div>

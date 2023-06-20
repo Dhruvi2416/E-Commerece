@@ -1,4 +1,3 @@
-
 import { useSelector } from "react-redux";
 import { RootState } from "../redux-toolkit/store";
 import { useDispatch } from "react-redux";
@@ -10,8 +9,9 @@ const SingleProductDisplay = () => {
   const viewProduct = useSelector(
     (state: RootState) => state.product.viewProduct
   );
-  const email = useSelector((state:RootState)=>state.product.userEmail)
+  const email = useSelector((state: RootState) => state.product.userEmail);
   const dispatch = useDispatch();
+  // on clicking add to cart product will be added to cart list
   const addToCartFunc = () => {
     dispatch(
       addedToCart({
@@ -27,12 +27,11 @@ const SingleProductDisplay = () => {
   };
 
   const cartedList = useSelector((state: RootState) => state.product.cartList);
-
+  // this is to check whether a product is laready there in cartList or not
   const exist = cartedList.some((item) => viewProduct.id === item.id);
 
   return (
- 
-   <div className="flex h-1/3 flex-col xl:flex-row xl:mt-32 justify-center items-center mx-11 shadow-lg shadow-gray-500 rounded-lg bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 gap-2 2xl:gap-1">
+    <div className="flex h-1/3 flex-col xl:flex-row xl:mt-32 justify-center items-center mx-11 shadow-lg shadow-gray-500 rounded-lg bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 gap-2 2xl:gap-1">
       <div className="flex w-full justify-center xl:justify-start mt-8 xl:mt-0">
         <img
           className=" w-96 xl:h-full 2xl:w-full items-center  mb-4 xl:mb-0 px-2 sm:px-0 sm:shadow-lg sm:shadow-black-300"
@@ -58,6 +57,7 @@ const SingleProductDisplay = () => {
         <div className="flex justify-center">
           {cartedList.length !== 0 ? (
             exist ? (
+              // if product already existed in cartlist then
               cartedList.map(
                 (cartedItem) =>
                   viewProduct.id === cartedItem.id && (
@@ -70,6 +70,7 @@ const SingleProductDisplay = () => {
                   )
               )
             ) : (
+              // if product not in cart list
               <button
                 onClick={() => addToCartFunc()}
                 className="flex justify-center bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mt-4 mb-4 w-36  text-lg  text-white font-semibold"
@@ -79,6 +80,7 @@ const SingleProductDisplay = () => {
               </button>
             )
           ) : (
+            // if product in cart list
             <button
               onClick={() => addToCartFunc()}
               className="flex justify-center bg-pink-700 hover:bg-blue-800 rounded-lg px-1 py-2 mt-4 mb-4 w-36  text-lg  text-white font-semibold"

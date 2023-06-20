@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux-toolkit/store";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import productSlice, {
+import  {
   seeProduct,
 } from "../redux-toolkit/product/productSlice";
 import { myOrders } from "../data/FirebaseFunctions";
@@ -26,6 +26,8 @@ const MyOrders = () => {
   const navigate = useNavigate();
   const [viewMyOrders, setViewMyOrders] = useState<DocumentData[]>([]);
 const loggedIn = useSelector((state:RootState)=>state.product.userLoggedIn)
+
+// fetches data from the items bought by the users
   const fetchData = async () => {
     await myOrders().then((data: DocumentData[]) => {
      
@@ -62,7 +64,7 @@ const loggedIn = useSelector((state:RootState)=>state.product.userLoggedIn)
       });
     }},[]);
   const email = useSelector((state: RootState) => state.product.userEmail);
-
+// checks the email of bought item and user email if they match than that products will be shown
   const filteredData = viewMyOrders.filter((order) =>
     order.email.includes(email)
   );

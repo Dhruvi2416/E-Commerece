@@ -10,9 +10,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const PriceDetailsOfCartedProducts = () => {
+  // displays cart list
   const displayCartProducts = useSelector(
     (state: RootState) => state.product.cartList
   );
+  // is user logged in or not returns in true or false
   const loggedIn = useSelector(
     (state: RootState) => state.product.userLoggedIn
   );
@@ -21,6 +23,7 @@ const PriceDetailsOfCartedProducts = () => {
   const navigate = useNavigate();
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const deliveryFee = 70;
+  // it calculates total price of all products
   useEffect(() => {
     let total = 0;
     displayCartProducts.map((item) => {
@@ -29,7 +32,8 @@ const PriceDetailsOfCartedProducts = () => {
     });
     setTotalPrice(total);
   }, [displayCartProducts]);
-
+  // if logged in than on clicking payment button it will proceed further for payment or
+  //  else it will navigate to home saying login first
   const handlePayment = () => {
     if (loggedIn) {
       dispatch(totalPriceOfProductsBought(totalPrice + 70));

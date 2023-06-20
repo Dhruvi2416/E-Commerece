@@ -14,8 +14,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Products = () => {
+  // products coming from database is set to product and then displayed further
   const [product, setProduct] = useState<DocumentData[]>([]);
+  // user email
   const email = useSelector((state: RootState) => state.product.userEmail);
+  // fetching data from database here firebase
   const fetchData = async () => {
     await getAllItems().then((data: DocumentData[]) => {
       setProduct(data);
@@ -24,7 +27,7 @@ const Products = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+  // returns which category user selected
   const categoryChoosen = useSelector(
     (state: RootState) => state.product.categoryChoosen
   );
@@ -48,19 +51,17 @@ const Products = () => {
       };
     }
   }, [categoryChoosen]);
-
+  // on refresh selected category will be null
   useEffect(() => {
     dispatch(favouriteCategory(""));
   }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const product = useSelector(
-  //   (state: RootState) => state.product.allProductsList
-  // );
 
+  // filtered data will return those products whose castegory matches user selected categiry
   const filteredData = product.filter((item) => {
     return item.category.includes(categoryChoosen);
-  }); //ama filtered data malse
+  });
 
   return (
     <div className="px-4 md:px-16" id="categorySelected">
@@ -69,6 +70,7 @@ const Products = () => {
       </p>
 
       {categoryChoosen ? (
+        // if category is choosen and that category related product is  available than it will show those products
         filteredData.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  items-center justify-center gap-2 mt-11 bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 pb-4">
             {filteredData.map(
@@ -91,7 +93,7 @@ const Products = () => {
                       <h5 className="mb-2 text-xl font-bold tracking-tight text-textColor dark:text-white flex  justify-center">
                         Price: ₹{" " + item.price}
                       </h5>
-
+                      {/* on clicking will navigate to view that particular product in more specified way */}
                       <button
                         onClick={() => {
                           dispatch(
@@ -117,6 +119,7 @@ const Products = () => {
             )}{" "}
           </div>
         ) : (
+          // if category is choosen and that category related product is not available than it will show animation
           <h1 className="flex flex-col justify-center mt-2 font-semibold text-2xl max-w-full ">
             <div ref={containerRef} id="lottie-container" className="h-96" />
             <p className="flex justify-center text-2xl font-semibold text-pink-700 mt-16">
@@ -125,6 +128,7 @@ const Products = () => {
           </h1>
         )
       ) : (
+        // else if category ias not choosen than it will display all produts
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  items-center justify-center gap-2 mt-11 bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 pb-4">
           {product.map((item) => (
             <div

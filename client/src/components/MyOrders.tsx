@@ -10,6 +10,8 @@ import { myOrders } from "../data/FirebaseFunctions";
 import { DocumentData } from "firebase/firestore";
 import Lottie from "lottie-web";
 import emptyCart from "./animation/emptyCart.json";
+import { Root } from "react-dom/client";
+import { toast } from "react-toastify";
 interface Data {
   category: string;
   id: string;
@@ -23,13 +25,15 @@ const MyOrders = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [viewMyOrders, setViewMyOrders] = useState<DocumentData[]>([]);
-
+const loggedIn = useSelector((state:RootState)=>state.product.userLoggedIn)
   const fetchData = async () => {
     await myOrders().then((data: DocumentData[]) => {
       console.log(data);
       setViewMyOrders(data);
     });
   };
+
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -47,6 +51,16 @@ const MyOrders = () => {
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate("/home");
+
+      toast.error("Please Login First!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    }},[]);
   const email = useSelector((state: RootState) => state.product.userEmail);
 
   const filteredData = viewMyOrders.filter((order) =>

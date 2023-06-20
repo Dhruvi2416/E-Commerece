@@ -29,7 +29,7 @@ const Header = () => {
   const handleClick = (index: number) => {
     setClickedIndex(index);
   };
-  
+
   const isLoggedIn = useSelector(
     (state: RootState) => state.product.userLoggedIn
   );
@@ -218,60 +218,62 @@ const Header = () => {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    to="/myorders"
-                    onClick={() => setIsDropdownOpen(false)}
-                    className={`text-base ${
-                      routeName === "/myorders"
-                        ? "font-semibold text-pink-700 hover:text-headingColor"
-                        : "text-textColor hover:text-headingColor"
-                    } duration-100 transition-all ease-in-out cursor-pointer`}
-                  >
-                    My Orders
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/cart"
-                    onClick={() => setIsDropdownOpen(false)}
-                    className={`text-base ${
-                      routeName === "/cart"
-                        ? "font-semibold text-pink-700 hover:text-headingColor"
-                        : "text-textColor hover:text-headingColor"
-                    } duration-100 transition-all ease-in-out cursor-pointer`}
-                  >
-                    Cart
-                  </Link>
-                </li>
-
                 {isLoggedIn ? (
-                  <div>
+                  <>
                     {" "}
-                    {email === process.env.REACT_APP_OWNER_EMAIL && (
+                    <li>
                       <Link
-                        to="/createItem"
-                        className=" flex flex-col gap-2 mb-2"
+                        to="/myorders"
                         onClick={() => setIsDropdownOpen(false)}
+                        className={`text-base ${
+                          routeName === "/myorders"
+                            ? "font-semibold text-pink-700 hover:text-headingColor"
+                            : "text-textColor hover:text-headingColor"
+                        } duration-100 transition-all ease-in-out cursor-pointer`}
                       >
-                        {routeName === "/createItem" ? (
-                          <li className="text-base font-semibold text-pink-700 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-                            New Item
-                          </li>
-                        ) : (
-                          <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
-                            New Item
-                          </li>
-                        )}
+                        My Orders
                       </Link>
-                    )}
-                    <li
-                      className=" text-base font-semibold  hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
-                      onClick={logout}
-                    >
-                      Logout
                     </li>
-                  </div>
+                    <li>
+                      <Link
+                        to="/cart"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className={`text-base ${
+                          routeName === "/cart"
+                            ? "font-semibold text-pink-700 hover:text-headingColor"
+                            : "text-textColor hover:text-headingColor"
+                        } duration-100 transition-all ease-in-out cursor-pointer`}
+                      >
+                        Cart
+                      </Link>
+                    </li>
+                    <div>
+                      {" "}
+                      {email === process.env.REACT_APP_OWNER_EMAIL && (
+                        <Link
+                          to="/createItem"
+                          className=" flex flex-col gap-2 mb-2"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          {routeName === "/createItem" ? (
+                            <li className="text-base font-semibold text-pink-700 hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+                              New Item
+                            </li>
+                          ) : (
+                            <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
+                              New Item
+                            </li>
+                          )}
+                        </Link>
+                      )}
+                      <li
+                        className=" text-base font-semibold  hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
+                        onClick={logout}
+                      >
+                        Logout
+                      </li>
+                    </div>
+                  </>
                 ) : (
                   <li
                     className="text-base font-semibold  hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer"
@@ -286,33 +288,31 @@ const Header = () => {
         </div>
       </div>
 
-      {routeName=="/home" &&  <a href="#dhruvi">
-      <div className="w-full flex flex-col mt-12 sm:mt-20 2xl:mt-36  bg-white">
-     
-        <div className="fixed z-30  w-full overflow-auto scrollbar-thin scrollbar-w-0 scrollbar-thumb-white scrollbar-track-white bg-white flex py-4 justify-start xl:justify-center items-center -mt-10 md:-mt-14 lg:-mt-18 2xl:-mt-24 ">
-          {categories.map((item, index) => (
-            <div key={item.id}>
-              <button onClick={() => dispatch(favouriteCategory(item.alt))}>
-                <p
-                  className={`w-32 hover:text-pink-700 ${
-                    clickedIndex === index
-                      ? "text-pink-700 font-bold"
-                      : "text-black"
-                  }`}
-                  onClick={() => handleClick(index)}
-                >
-                  {" "}
-                  {item.alt}{" "}
-                </p>
-              </button>
+      {routeName == "/home" || routeName=="/" && (
+        <a href="#dhruvi">
+          <div className="w-full flex flex-col mt-12 sm:mt-20 2xl:mt-36  bg-white">
+            <div className="fixed z-30  w-full overflow-auto scrollbar-thin scrollbar-w-0 scrollbar-thumb-white scrollbar-track-white bg-white flex py-4 justify-start xl:justify-center items-center -mt-10 md:-mt-14 lg:-mt-18 2xl:-mt-24 ">
+              {categories.map((item, index) => (
+                <div key={item.id}>
+                  <button onClick={() => dispatch(favouriteCategory(item.alt))}>
+                    <p
+                      className={`w-32 hover:text-pink-700 ${
+                        clickedIndex === index
+                          ? "text-pink-700 font-bold"
+                          : "text-black"
+                      }`}
+                      onClick={() => handleClick(index)}
+                    >
+                      {" "}
+                      {item.alt}{" "}
+                    </p>
+                  </button>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        </div>
-      </a>
-      
-      
-      }
+          </div>
+        </a>
+      )}
     </header>
   );
 };

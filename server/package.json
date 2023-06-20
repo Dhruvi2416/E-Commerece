@@ -1,0 +1,32 @@
+{
+  "name": "e-commerce_server",
+  "version": "1.0.0",
+  "description": "",
+  "type":"module",
+  "main": "index.js",
+  "scripts": {
+    "dev":"node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "path": "^0.12.7",
+    "razorpay": "^2.8.6",
+    "stream": "^0.0.2"
+  },
+  "browser": {
+    "path": false,
+    "stream": false
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
+}

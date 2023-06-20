@@ -8,7 +8,7 @@ export const checkout = async (req, res) => {
     };
 
     const order = await instance.orders.create(options);
-    console.log(order); // Corrected line
+  
 
     res.status(200).json({ success: true, order });
   } catch (error) {

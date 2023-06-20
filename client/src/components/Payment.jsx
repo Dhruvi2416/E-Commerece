@@ -42,7 +42,7 @@ const Payment = () => {
   const [error, setError] = useState("");
 
   const addList = (order_id) => {
-    console.log("order", order_id);
+
     try {
       if (order_id) {
         const newItem = {
@@ -90,7 +90,7 @@ const Payment = () => {
           amount: totalPrice * 100,
         }
       ); //firebase store ==> order Id
-      console.log(result);
+   
       // if (!result) {
       //   alert("Server error. Are you online?");
       //   return;
@@ -98,13 +98,13 @@ const Payment = () => {
 
       // Getting the order details back
       const { amount, currency } = result.data;
-      console.log("orderof Dhruvi", result.data.order.id);
+      
       const apiKey = await axios.get(
         "https://shopsify-backend.onrender.com/api/getKey"
       );
-      console.log("KEY", apiKey.data.key);
+      
       const { key } = apiKey.data;
-      console.log(totalPrice);
+      
       const options = {
         key: key, // Enter the Key ID generated from the Dashboard
         amount: amount,
@@ -154,7 +154,7 @@ const Payment = () => {
       });
     }
   }
-  console.log(name);
+
   return (
     <div className="mt-20 xl:mt-40">
       <ToastContainer />

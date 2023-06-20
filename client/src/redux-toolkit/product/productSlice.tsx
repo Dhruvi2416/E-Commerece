@@ -209,7 +209,7 @@ export const productSlice = createSlice({
 
     handleUserLoggedIn: (state, action: PayloadAction<boolean>) => {
       state.userLoggedIn = action.payload;
-      // console.log("Actionjackson"+action.payload.email)
+      
     },
 
     favouriteCategory: (state, action: PayloadAction<string>) => {

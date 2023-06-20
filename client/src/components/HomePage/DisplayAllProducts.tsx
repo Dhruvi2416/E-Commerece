@@ -18,7 +18,6 @@ const Products = () => {
   const email = useSelector((state: RootState) => state.product.userEmail);
   const fetchData = async () => {
     await getAllItems().then((data: DocumentData[]) => {
-      console.log(data);
       setProduct(data);
     });
   };
@@ -33,7 +32,6 @@ const Products = () => {
   const container = document.getElementById("lottie-container");
 
   useEffect(() => {
-    console.log("Error? outside if");
     if (containerRef.current) {
       const container = containerRef.current;
       const animation = Lottie.loadAnimation({
@@ -43,7 +41,6 @@ const Products = () => {
         autoplay: true,
         animationData: outOfStock,
       });
-      console.log("Error?");
 
       // Cleanup the animation when component unmounts or categoryChoosen changes
       return () => {
@@ -54,7 +51,6 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(favouriteCategory(""));
-    console.log("Error2?");
   }, []);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,17 +63,14 @@ const Products = () => {
   }); //ama filtered data malse
 
   return (
-    <div className="px-4 md:px-16">
+    <div className="px-4 md:px-16" id="categorySelected">
       <p className="flex justify-center text-xl font-semibold text-pink-700 mt-16">
         Available Products
       </p>
 
       {categoryChoosen ? (
         filteredData.length > 0 ? (
-          <div
-            id="dhruvi"
-            className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  items-center justify-center gap-2 mt-11 bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 pb-4"
-          >
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  items-center justify-center gap-2 mt-11 bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 pb-4">
             {filteredData.map(
               (item, i) =>
                 categoryChoosen === item.category && (
@@ -126,10 +119,7 @@ const Products = () => {
         ) : (
           <h1 className="flex flex-col justify-center mt-2 font-semibold text-2xl max-w-full ">
             <div ref={containerRef} id="lottie-container" className="h-96" />
-            <p
-              id="dhruvi"
-              className="flex justify-center text-2xl font-semibold text-pink-700 mt-16"
-            >
+            <p className="flex justify-center text-2xl font-semibold text-pink-700 mt-16">
               Out of Stock
             </p>
           </h1>
@@ -183,4 +173,3 @@ const Products = () => {
 };
 
 export default Products;
-

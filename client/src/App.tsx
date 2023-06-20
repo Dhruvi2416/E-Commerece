@@ -7,6 +7,7 @@ import SingleProductDisplay from "./components/SingleProductDisplay";
 import Cart from "./components/cart/Cart";
 import Payment from "./components/Payment";
 import MyOrders from "./components/MyOrders";
+import PageNotFound from "./components/PageNotFound";
 
 const App = () => {
   return (
@@ -20,8 +21,9 @@ const App = () => {
             <Route path="/createItem" element={<CreateContainer />} />
             <Route path="/viewProduct" element={<SingleProductDisplay />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/myorders" element={<MyOrders/>}/>
+            <Route path="/myorders" element={<MyOrders />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/*" element={<PageNotFound />} />
           </Routes>
         </main>
       </div>

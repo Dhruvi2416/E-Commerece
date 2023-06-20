@@ -66,7 +66,6 @@ const Header = () => {
       }
     } catch (error) {
       // Handle the unknown error case
-      console.log("Sign-in error:", error);
       // Display a generic error message or perform any other action
     }
   };
@@ -84,7 +83,6 @@ const Header = () => {
   };
   const location = useLocation();
   const routeName = location.pathname;
-  console.log(routeName);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -96,6 +94,7 @@ const Header = () => {
       <ToastContainer />
       <div className=" flex items-center w-full h-full justify-between">
         <img
+          onClick={() => navigate("/")}
           className="w-20 object-cover rounded-full"
           src="/assets/logo.png"
           alt=""
@@ -288,8 +287,8 @@ const Header = () => {
         </div>
       </div>
 
-      {routeName == "/home" || routeName=="/" && (
-        <a href="#dhruvi">
+      {routeName == "/home" || routeName == "/" ? (
+        <a href="#categorySelected">
           <div className="w-full flex flex-col mt-12 sm:mt-20 2xl:mt-36  bg-white">
             <div className="fixed z-30  w-full overflow-auto scrollbar-thin scrollbar-w-0 scrollbar-thumb-white scrollbar-track-white bg-white flex py-4 justify-start xl:justify-center items-center -mt-10 md:-mt-14 lg:-mt-18 2xl:-mt-24 ">
               {categories.map((item, index) => (
@@ -312,7 +311,7 @@ const Header = () => {
             </div>
           </div>
         </a>
-      )}
+      ) : null}
     </header>
   );
 };

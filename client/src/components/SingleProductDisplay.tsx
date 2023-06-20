@@ -29,7 +29,7 @@ const SingleProductDisplay = () => {
   const cartedList = useSelector((state: RootState) => state.product.cartList);
 
   const exist = cartedList.some((item) => viewProduct.id === item.id);
-  console.log(cartedList);
+
   return (
  
    <div className="flex h-1/3 flex-col xl:flex-row xl:mt-32 justify-center items-center mx-11 shadow-lg shadow-gray-500 rounded-lg bg-gradient-to-r from-orange-200 via-pink-300 to-orange-300 gap-2 2xl:gap-1">

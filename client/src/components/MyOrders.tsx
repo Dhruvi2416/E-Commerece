@@ -28,7 +28,7 @@ const MyOrders = () => {
 const loggedIn = useSelector((state:RootState)=>state.product.userLoggedIn)
   const fetchData = async () => {
     await myOrders().then((data: DocumentData[]) => {
-      console.log(data);
+     
       setViewMyOrders(data);
     });
   };
@@ -67,7 +67,7 @@ const loggedIn = useSelector((state:RootState)=>state.product.userLoggedIn)
     order.email.includes(email)
   );
 
-  console.log("viewMyOrders", viewMyOrders[0]);
+ 
   const view = (
     category: string,
     id: string,
